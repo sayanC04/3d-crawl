@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hybrid AI-Infrastructure Engineer — Roadmap Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-canvas:#0F1417;
+    --bg-panel:#161C21;
+    --bg-panel-raised:#1D252B;
+    --bg-hover:#232C33;
+    --line:#2A343B;
+    --line-soft:#1F2830;
+    --text-primary:#F2F6F7;
+    --text-secondary:#A7B7BE;
+    --text-faint:#6C7A81;
+    --accent:#4FD1AE;
+    --go:#2FE07A;
+    --go-glow:rgba(47,224,122,.55);
+    --font-display:'Space Grotesk', system-ui, sans-serif;
+    --font-body:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, "SF Mono", "Cascadia Code", monospace;
+
+    --c-foundations:#7C9CF5;
+    --c-cloud:#D98E4C;
+    --c-containers:#4FD1AE;
+    --c-mlops:#C97CE0;
+    --c-ai:#5FC4E8;
+    --c-platform:#E0716B;
+    --c-flagship:#D4C24C;
+    --c-career:#9AA7AE;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important; animation:none !important;}
+  }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 620px at 14% -8%, rgba(79,209,174,.10), transparent 60%),
+      radial-gradient(900px 700px at 100% 0%, rgba(124,156,245,.08), transparent 55%),
+      var(--bg-canvas);
+    color:var(--text-primary);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--accent);}
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  /* ---------- shell ---------- */
+  .app-shell{ display:flex; align-items:flex-start; max-width:1320px; margin:0 auto; perspective:2200px; }
+  .rail{
+    width:264px; flex-shrink:0; position:sticky; top:0; height:100vh;
+    overflow-y:auto; padding:26px 10px 24px 22px; border-right:1px solid var(--line-soft);
+  }
+  .rail-brand{ font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:18px; }
+  .rail-list{list-style:none; margin:0; padding:0; position:relative;}
+  .rail-list::before{ content:""; position:absolute; left:9px; top:6px; bottom:6px; width:1px; background:var(--line); }
+  .rail-item{position:relative; margin-bottom:2px;}
+  .rail-link{ display:flex; align-items:center; gap:10px; padding:8px 10px 8px 5px; text-decoration:none; color:var(--text-secondary); border-radius:7px; font-size:15px; font-weight:500; transition:transform .15s, background .15s, color .15s; }
+  .rail-link:hover{background:var(--bg-hover); color:var(--text-primary); transform:translateX(3px);}
+  .rail-item.is-active .rail-link{background:var(--bg-panel-raised); color:var(--rail-cat, var(--text-primary)); box-shadow:inset 3px 0 0 var(--rail-cat, var(--accent));}
+  .rail-item.is-hidden{display:none;}
+  .rail-dot{ width:13px; height:13px; border-radius:50%; flex-shrink:0; z-index:1; background:var(--bg-canvas); border:2px solid var(--line); transition:box-shadow .2s; }
+  .rail-item.is-done .rail-dot{border-color:var(--go); background:var(--go); box-shadow:0 0 10px var(--go-glow);}
+  .rail-item.is-partial .rail-dot{border-color:var(--rail-cat, var(--accent));}
+  .rail-num{font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint); width:17px; flex-shrink:0;}
+  .rail-title{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .rail-frac{font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);}
+
+  .main{flex:1; min-width:0; padding:30px 36px 120px;}
+
+  /* ---------- hero ---------- */
+  .hero{padding-bottom:20px; margin-bottom:6px; border-bottom:1px solid var(--line-soft);}
+  .hero-title{ font-family:var(--font-display); font-weight:700; font-size:36px; margin:0 0 8px; letter-spacing:-0.015em;
+    background:linear-gradient(100deg, var(--go) 0%, var(--c-ai) 55%, var(--c-foundations) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero-sub{color:var(--text-secondary); font-size:16.5px; margin:0 0 24px; max-width:66ch;}
+
+  .stat-row{display:flex; align-items:flex-end; gap:32px; flex-wrap:wrap; margin-bottom:16px;}
+  .stat-big{font-family:var(--font-display); font-weight:700; font-size:58px; line-height:1; color:var(--go); text-shadow:0 0 26px var(--go-glow);}
+  .stat-big small{font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--text-secondary); margin-left:2px;}
+  .stat-mini-group{display:flex; gap:24px; flex-wrap:wrap;}
+  .stat-mini{font-family:var(--font-mono); font-size:14.5px; color:var(--text-secondary);}
+  .stat-mini b{color:var(--text-primary); font-weight:600; font-size:16px;}
+
+  .segbar{ display:flex; width:100%; height:16px; border-radius:5px; overflow:hidden; background:var(--bg-panel); margin-bottom:10px; border:1px solid var(--line-soft); box-shadow:inset 0 1px 3px rgba(0,0,0,.4); }
+  .segbar-seg{position:relative; border-right:1px solid var(--bg-canvas);}
+  .segbar-seg:last-child{border-right:none;}
+  .segbar-fill{position:absolute; inset:0; width:0%;}
+  .segbar-legend{display:flex; flex-wrap:wrap; gap:12px 16px; margin-bottom:22px;}
+  .legend-item{display:flex; align-items:center; gap:6px; font-size:13px; font-weight:500; color:var(--text-secondary);}
+  .legend-swatch{width:9px; height:9px; border-radius:2px; flex-shrink:0; box-shadow:0 0 6px currentColor;}
+
+  /* ---------- controls ---------- */
+  .controls{ display:flex; flex-wrap:wrap; gap:18px 28px; align-items:flex-end; padding:18px 0 22px; margin-bottom:8px; border-bottom:1px solid var(--line-soft); }
+  .control-block{display:flex; flex-direction:column; gap:8px;}
+  .control-label{font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint); letter-spacing:0.04em;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{ font-family:var(--font-body); font-size:14px; font-weight:500; padding:7px 14px; border-radius:999px; border:1px solid var(--line); background:var(--bg-panel); color:var(--text-secondary); cursor:pointer; display:flex; align-items:center; gap:7px;
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s, color .12s; transform-style:preserve-3d; }
+  .chip:hover{border-color:var(--text-faint); color:var(--text-primary); transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,.35);}
+  .chip:active{transform:translateY(0) scale(.97);}
+  .chip.is-active{background:var(--bg-panel-raised); color:var(--text-primary); border-color:var(--chip-color, var(--accent)); box-shadow:0 4px 14px -4px var(--chip-color, var(--accent));}
+  .chip-dot{width:9px; height:9px; border-radius:50%; background:var(--chip-color, var(--accent)); box-shadow:0 0 8px var(--chip-color, var(--accent));}
+
+  .slider-wrap{min-width:240px;}
+  .slider-value{font-family:var(--font-mono); font-size:14.5px; margin-bottom:3px;}
+  .slider-value b{color:var(--go); font-weight:700; font-size:16px;}
+  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:6px; background:var(--line); border-radius:3px; outline-offset:4px; }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:20px; height:20px; border-radius:50%; background:var(--go); cursor:pointer; border:3px solid var(--bg-canvas); box-shadow:0 0 0 1px var(--go), 0 0 12px var(--go-glow); }
+  input[type=range]::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:var(--go); cursor:pointer; border:3px solid var(--bg-canvas); box-shadow:0 0 12px var(--go-glow); }
+  .slider-eta{font-size:13px; color:var(--text-secondary); margin-top:5px;}
+
+  .reset-btn{ margin-left:auto; font-family:var(--font-mono); font-size:13px; color:var(--text-faint); background:none; border:1px solid var(--line); padding:8px 14px; border-radius:6px; cursor:pointer; align-self:center; transition:transform .12s, color .12s, border-color .12s; }
+  .reset-btn:hover{color:var(--text-primary); border-color:var(--text-faint); transform:translateY(-2px);}
+  .reset-btn:active{transform:translateY(0) scale(.96);}
+
+  /* ---------- stage cards ---------- */
+  .stage-section{margin-top:24px; scroll-margin-top:16px;}
+  .stage-section.is-hidden{display:none;}
+  .stage-card{
+    background:linear-gradient(155deg, var(--bg-panel-raised), var(--bg-panel) 60%);
+    border:1px solid var(--line-soft); border-radius:12px; border-left:4px solid var(--stage-color, var(--accent));
+    overflow:hidden; transform-style:preserve-3d; will-change:transform;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset, 0 10px 24px -18px rgba(0,0,0,.6);
+    transition:box-shadow .25s ease, border-color .25s ease;
+  }
+  .stage-card:hover{ box-shadow:0 22px 44px -20px rgba(0,0,0,.65), 0 0 0 1px var(--stage-color, var(--line-soft)) inset; }
+  .stage-card.is-open{ box-shadow:0 22px 50px -20px rgba(0,0,0,.7), 0 0 0 1px var(--stage-color, var(--line-soft)) inset; }
+  .stage-head{ display:flex; align-items:center; gap:14px; padding:17px 19px; cursor:pointer; user-select:none; transform:translateZ(18px); }
+  .stage-num{ font-family:var(--font-mono); font-size:12.5px; color:var(--text-faint); background:var(--bg-panel-raised); border:1px solid var(--line); border-radius:5px; padding:4px 7px; flex-shrink:0; }
+  .stage-headtext{flex:1; min-width:0;}
+  .stage-title{font-family:var(--font-display); font-weight:600; font-size:19px; margin:0; color:var(--text-primary);}
+  .stage-meta{font-family:var(--font-mono); font-size:12px; color:var(--text-faint); margin-top:4px; display:flex; gap:11px; flex-wrap:wrap;}
+  .stage-tag{color:var(--stage-color, var(--text-faint)); font-weight:600;}
+  .stage-pie{width:30px; height:30px; border-radius:50%; flex-shrink:0; background:var(--bg-panel-raised); box-shadow:0 2px 6px rgba(0,0,0,.4), inset 0 0 0 1px var(--line-soft);}
+  .stage-frac{font-family:var(--font-mono); font-size:13.5px; color:var(--text-secondary); width:52px; text-align:right; flex-shrink:0;}
+  .chevron{width:9px; height:9px; border-right:2px solid var(--text-faint); border-bottom:2px solid var(--text-faint); transform:rotate(45deg); margin-right:2px; flex-shrink:0; transition:transform .15s;}
+  .stage-card.is-open .chevron{transform:rotate(-135deg); border-color:var(--stage-color, var(--accent));}
+
+  .stage-body{padding:0 19px 19px 19px; display:none; transform:translateZ(10px);}
+  .stage-card.is-open .stage-body{display:block;}
+
+  /* ---------- compact checklist rows: topic + expandable detail ---------- */
+  .checklist{list-style:none; margin:6px 0 16px; padding:0;}
+  .check-item{border-radius:8px; transition:background .15s, transform .15s;}
+  .check-item:hover{background:var(--bg-hover); transform:translateX(2px);}
+  .check-item.is-child{margin-left:24px;}
+  .check-main{display:flex; align-items:center; gap:11px; padding:7px 8px;}
+
+  /* ---- big, green, tactile checkboxes ---- */
+  .check-main input[type=checkbox]{
+    appearance:none; -webkit-appearance:none; width:24px; height:24px; flex-shrink:0;
+    border:2px solid var(--line); border-radius:7px; background:var(--bg-panel-raised); cursor:pointer; position:relative;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.03);
+    transition:transform .12s ease, background .15s, border-color .15s, box-shadow .2s;
+  }
+  .check-main input[type=checkbox]:hover{border-color:var(--go); transform:scale(1.08);}
+  .check-main input[type=checkbox]:active{transform:scale(.9);}
+  .check-main input[type=checkbox]:checked{
+    background:linear-gradient(155deg, #4CF08A, var(--go)); border-color:var(--go);
+    box-shadow:0 0 0 4px var(--go-glow), 0 2px 8px rgba(0,0,0,.35);
+    animation:checkPop .28s cubic-bezier(.34,1.56,.64,1);
+  }
+  .check-main input[type=checkbox]:checked::after{
+    content:""; position:absolute; left:8px; top:3px; width:7px; height:12px;
+    border:solid #0B1210; border-width:0 3px 3px 0; transform:rotate(45deg);
+  }
+  @keyframes checkPop{ 0%{transform:scale(.7);} 55%{transform:scale(1.18);} 100%{transform:scale(1);} }
+  .check-main input[type=checkbox]:indeterminate{background:var(--bg-panel-raised); border-color:var(--stage-color, var(--go));}
+  .check-main input[type=checkbox]:indeterminate::after{
+    content:""; position:absolute; left:4.5px; top:9.5px; width:11px; height:3px; border-radius:2px; background:var(--stage-color, var(--go));
+  }
+
+  /* ---- colorful, larger topic text ---- */
+  .check-topic{flex:1; min-width:0; font-size:16px; font-weight:500; color:var(--stage-color, var(--text-secondary)); filter:brightness(0.92) saturate(0.9); cursor:pointer; line-height:1.4; transition:color .15s;}
+  .check-item:hover .check-topic{filter:brightness(1.1) saturate(1.1);}
+  .check-item.is-checked .check-topic{color:var(--text-faint); filter:none; text-decoration:line-through; text-decoration-color:var(--line); font-weight:400;}
+  .check-item.is-parent .check-topic{color:var(--text-primary); font-weight:700; font-size:17px; text-decoration:none; filter:none;}
+  .check-item.is-parent.is-checked .check-topic{color:var(--go);}
+  .detail-toggle{
+    flex-shrink:0; width:24px; height:24px; border-radius:50%; border:1.5px solid var(--line);
+    background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-faint);
+    transition:transform .15s, border-color .15s, color .15s;
+  }
+  .detail-toggle:hover{border-color:var(--text-faint); color:var(--text-primary); transform:scale(1.1);}
+  .check-item.is-expanded .detail-toggle{background:var(--bg-panel-raised); color:var(--stage-color,var(--accent)); border-color:var(--stage-color,var(--accent));}
+  .mini-chevron{width:6px; height:6px; border-right:2px solid currentColor; border-bottom:2px solid currentColor; transform:rotate(45deg); transition:transform .15s;}
+  .check-item.is-expanded .mini-chevron{transform:rotate(-135deg);}
+  .check-detail{display:none; padding:2px 8px 12px 51px; font-size:14px; color:var(--text-secondary); line-height:1.55; max-width:68ch;}
+  .check-item.is-child .check-detail{padding-left:43px;}
+  .check-item.is-expanded .check-detail{display:block;}
+  .check-resource{ font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--stage-color, var(--accent)); margin-bottom:6px; line-height:1.5; }
+
+  .info-block{ background:var(--bg-panel-raised); border-radius:9px; padding:14px 16px; margin-top:11px; font-size:14.5px; color:var(--text-secondary); box-shadow:0 6px 18px -12px rgba(0,0,0,.5); }
+  .info-block + .info-block{margin-top:9px;}
+  .info-label{font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; color:var(--text-faint); display:block; margin-bottom:5px;}
+  .checkpoint-block{border-left:3px solid var(--go);}
+  .checkpoint-block .info-label{color:var(--go);}
+
+  .project-group{border-top:1px solid var(--line-soft); padding-top:14px; margin-top:14px;}
+  .project-group:first-child{border-top:none; margin-top:5px; padding-top:0;}
+  .project-name{font-family:var(--font-display); font-weight:700; font-size:16px; margin:0 0 4px; color:var(--stage-color, var(--text-primary));}
+  .project-desc{font-size:13.5px; color:var(--text-faint); margin:0 0 5px;}
+  .project-resource{font-family:var(--font-mono); font-size:12.5px; color:var(--stage-color,var(--accent)); margin:0 0 10px;}
+
+  /* ---------- footer sections ---------- */
+  .footer-section{margin-top:46px;}
+  .footer-heading{font-family:var(--font-display); font-weight:700; font-size:21px; margin:0 0 6px; color:var(--text-primary);}
+  .footer-sub{color:var(--text-secondary); font-size:14.5px; margin:0 0 16px; max-width:64ch;}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .market-card{background:linear-gradient(155deg, var(--bg-panel-raised), var(--bg-panel)); border:1px solid var(--line-soft); border-radius:11px; padding:17px;
+    transform-style:preserve-3d; transition:transform .2s ease, box-shadow .2s ease; box-shadow:0 10px 24px -18px rgba(0,0,0,.6);}
+  .market-card:hover{ transform:translateY(-4px); box-shadow:0 20px 36px -18px rgba(0,0,0,.65); }
+  .market-card h4{font-family:var(--font-mono); font-size:13px; letter-spacing:0.04em; color:var(--go); margin:0 0 11px;}
+  .market-card p{font-size:14px; color:var(--text-secondary); margin:0 0 8px;}
+  .market-card p:last-child{margin-bottom:0;}
+
+  .glance-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:9px; margin-top:12px;}
+  .glance-cell{ background:linear-gradient(155deg, var(--bg-panel-raised), var(--bg-panel)); border:1px solid var(--line-soft); border-left:4px solid var(--gc-color,var(--accent)); border-radius:8px; padding:10px 12px;
+    transition:transform .15s ease, box-shadow .15s ease; }
+  .glance-cell:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 12px 20px -12px rgba(0,0,0,.5); }
+  .glance-cell .gname{font-size:13px; color:var(--text-secondary); display:block; margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .glance-cell .gpct{font-family:var(--font-mono); font-size:16px; font-weight:700;}
+
+  footer.pagefoot{margin-top:48px; padding-top:18px; border-top:1px solid var(--line-soft); font-size:13px; color:var(--text-faint);}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .app-shell{flex-direction:column;}
+    .rail{ position:sticky; top:0; z-index:5; width:100%; height:auto; border-right:none; border-bottom:1px solid var(--line-soft); background:var(--bg-canvas); padding:10px 14px; overflow-x:auto; overflow-y:hidden; }
+    .rail-brand{display:none;}
+    .rail-list{display:flex; gap:4px;}
+    .rail-list::before{display:none;}
+    .rail-item{flex-shrink:0;}
+    .rail-link{padding:6px 10px; white-space:nowrap; font-size:14px;}
+    .rail-title{max-width:110px;}
+    .main{padding:18px 14px 90px;}
+    .grid-3{grid-template-columns:1fr;}
+    .hero-title{font-size:26px;}
+    .stat-big{font-size:38px;}
+    .reset-btn{margin-left:0;}
+    .stage-card{transform:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <nav class="rail" aria-label="Stage navigation">
+    <div class="rail-brand">ROADMAP // 11 STAGES</div>
+    <ul class="rail-list" id="railList"></ul>
+  </nav>
+
+  <main class="main">
+    <header class="hero">
+      <h1 class="hero-title">The Hybrid AI-Infrastructure Engineer Roadmap</h1>
+      <p class="hero-sub">DevOps Engineer (entry title) → Platform Engineer / MLOps Engineer, 18–24 month target. Every topic now breaks into subtopics with the course to watch — tap the circle to see it.</p>
+
+      <div class="stat-row">
+        <div class="stat-big" id="pctBig">0<small>%</small></div>
+        <div class="stat-mini-group">
+          <div class="stat-mini"><b id="doneCount">0</b>/<span id="totalCount">0</span> tasks done</div>
+          <div class="stat-mini"><b id="hoursDone">0</b>/<span id="hoursTotal">0</span> hrs logged</div>
+        </div>
+      </div>
+
+      <div class="segbar" id="segbar"></div>
+      <div class="segbar-legend" id="legend"></div>
+    </header>
+
+    <section class="controls">
+      <div class="control-block">
+        <span class="control-label">CATEGORY</span>
+        <div class="chip-row" id="catChips"></div>
+      </div>
+      <div class="control-block">
+        <span class="control-label">STATUS</span>
+        <div class="chip-row" id="statusChips"></div>
+      </div>
+      <div class="control-block slider-wrap">
+        <span class="control-label">PACE</span>
+        <div class="slider-value">Study at <b id="hrsLabel">18</b> hrs/week</div>
+        <input type="range" id="hrsSlider" min="8" max="40" value="18" step="1">
+        <div class="slider-eta" id="etaLine"></div>
+      </div>
+      <button class="reset-btn" id="resetBtn" type="button">Reset progress</button>
+    </section>
+
+    <div id="stageContainer"></div>
+
+    <section class="footer-section" id="glanceSection">
+      <h2 class="footer-heading">Roadmap at a glance</h2>
+      <p class="footer-sub">Auto-generated from your checkboxes above.</p>
+      <div class="glance-grid" id="glanceGrid"></div>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">After Stage 11 — the specialization track</h2>
+      <p class="footer-sub">Months 7–12+. Optional and ongoing — not counted in the progress above.</p>
+      <ul class="checklist" id="specList"></ul>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Job-search keywords by market</h2>
+      <div class="grid-3">
+        <div class="market-card">
+          <h4>US</h4>
+          <p>"DevOps Engineer," "Cloud Engineer" as primary titles.</p>
+          <p>"MLOps," "ML Infrastructure," "Platform Engineering" as resume keywords.</p>
+        </div>
+        <div class="market-card">
+          <h4>UK</h4>
+          <p>Same title strategy. Platform Engineering and DevSecOps are the fastest-growing specializations.</p>
+          <p>Azure familiarity helps more here than in the US, given Microsoft-heavy enterprise stacks.</p>
+        </div>
+        <div class="market-card">
+          <h4>India</h4>
+          <p>"DevOps Engineer" / "Cloud Engineer" at product companies and GCCs specifically.</p>
+          <p>GCCs pay a premium over service-company DevOps roles for the same title.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pagefoot">Progress saves automatically in this browser. Don't move to the next stage until you pass its checkpoint.</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const CATS = {
+    "Foundations":            "var(--c-foundations)",
+    "Cloud & IaC":            "var(--c-cloud)",
+    "Containers & Kubernetes":"var(--c-containers)",
+    "MLOps":                  "var(--c-mlops)",
+    "AI Engineering":         "var(--c-ai)",
+    "Platform Engineering":   "var(--c-platform)",
+    "Flagship Projects":      "var(--c-flagship)",
+    "Career":                 "var(--c-career)"
+  };
+
+  const stages = [
+    { num:1, title:`Programming Foundations`, weeks:`Weeks 1–2`, category:`Foundations`, hoursLabel:`30–35`, hoursMid:32.5,
+      why:`Python is the automation/AI backbone; Go is the language Kubernetes, Docker, and Terraform are written in. Employers in the platform-engineering track specifically look for engineers who aren't just Python-only, because it signals you can eventually read and modify infrastructure tooling itself, not just call its APIs.`,
+      checkpoint:`You can write a Python script and a Go CLI tool from a blank file, no tutorial open, to solve a problem you didn't practice specifically (e.g., "count word frequency in a log file" in both languages).`,
+      items:[
+        {topic:`Python fundamentals`, resource:`Python Language Full Course (2026) — Shradha Khapra`, detail:`Use this as your spine, but after every 2 videos, close it and rebuild what you just watched from memory.`, children:[
+          {topic:`Variables & data types`, detail:`Ints, floats, strings, booleans, lists, dicts, tuples, sets.`},
+          {topic:`Control flow (if/else)`, detail:`if / elif / else branching, truthy vs falsy values.`},
+          {topic:`Loops (for/while)`, detail:`for loops, while loops, break / continue.`},
+          {topic:`Functions`, detail:`Defining functions, args/kwargs, return values, scope.`},
+          {topic:`OOP (classes & inheritance)`, detail:`Classes, instances, inheritance, basic encapsulation.`},
+          {topic:`File I/O`, detail:`Reading and writing files, context managers (with).`},
+          {topic:`Error handling`, detail:`try / except / finally, raising your own exceptions.`},
+          {topic:`Virtual environments`, detail:`venv / virtualenv, requirements.txt.`}
+        ]},
+        {topic:`Automation scripts`, resource:`Give Me 4 Hours, I Will Make You PRO in Python for DevOps — TrainWithShubham`, detail:`Don't follow a tutorial for these three; use the course only as a syntax reference when stuck.`, children:[
+          {topic:`Log-file parser`, detail:`Parse a real log file and extract patterns you define yourself.`},
+          {topic:`Bulk file renamer`, detail:`Rename a folder of files by a rule you design.`},
+          {topic:`REST API poller`, detail:`Poll a public REST endpoint on an interval and react to the response.`}
+        ]},
+        {topic:`Go fundamentals`, resource:`Golang Tutorial for Beginners | Full Go Course — TechWorld with Nana`, detail:`Just enough to understand concurrency, not mastery yet.`, children:[
+          {topic:`Variables & types`, detail:`Go's static typing vs Python's dynamic typing.`},
+          {topic:`Structs`, detail:`Go's stand-in for simple classes.`},
+          {topic:`Interfaces`, detail:`How Go does polymorphism without inheritance.`},
+          {topic:`Goroutines & channels`, detail:`Just enough to understand concurrency, not mastery yet.`},
+          {topic:`Error handling idioms`, detail:`Go doesn't use exceptions — this trips up everyone coming from Python.`}
+        ]},
+        {topic:`Go project: Todo CLI`, resource:`Full Golang Tutorial – Learn Go by Building a TodoList App — TechWorld with Nana`, detail:`Build it along with the course, then extend it on your own.`, children:[
+          {topic:`Build the TodoList app`, detail:`Follow the course build end to end.`},
+          {topic:`Add a second resource type`, detail:`E.g. "tags" or "categories" — entirely on your own, without following along.`},
+          {topic:`Wire up basic CRUD for it`, detail:`Create, read, update, delete for your new resource type.`}
+        ]},
+        {topic:`Git fundamentals`, detail:`Solidify the workflows that trip people up under pressure.`, children:[
+          {topic:`Branching`, detail:`Creating, switching, and cleaning up branches.`},
+          {topic:`Rebasing vs merging`, detail:`When to use each, and how history differs.`},
+          {topic:`Resolving a real conflict`, detail:`Create a conflict on purpose and resolve it by hand.`}
+        ]}
+      ]
+    },
+    { num:2, title:`APIs, Databases & OS/Networking Basics`, weeks:`Weeks 3–4`, category:`Foundations`, hoursLabel:`35–40`, hoursMid:37.5,
+      why:`Nearly every DevOps/platform interview includes a "walk me through what happens when you type a URL into a browser" style networking question, and a live debugging scenario in Linux. This stage is what lets you not freeze on those.`,
+      checkpoint:`Your FastAPI + MongoDB model-registry API is running locally with auth, and you can explain — out loud, without notes — what happens at each network layer when a client calls it.`,
+      items:[
+        {topic:`FastAPI CRUD API`, resource:`FastAPI – A Python Framework | Full Course — Sarthaksavvy`, detail:`Build it for your own resource, not blog posts. Suggestion: a "model registry" API (name, version, framework, S3 path) — this becomes scaffolding you'll reuse in Stage 7.`, children:[
+          {topic:`Define your resource schema`, detail:`Design the fields for your own resource, not the tutorial's.`},
+          {topic:`Build CRUD routes`, detail:`Create, read, update, delete endpoints.`},
+          {topic:`Add request validation`, detail:`Pydantic models for input/output validation.`}
+        ]},
+        {topic:`JWT auth`, detail:`Add this yourself using FastAPI's docs, not a tutorial.`, children:[
+          {topic:`Password hashing`, detail:`Never store plaintext passwords.`},
+          {topic:`Issue & verify JWT tokens`, detail:`Login issues a token; protected routes verify it.`},
+          {topic:`Protect routes with dependencies`, detail:`FastAPI's dependency injection for auth checks.`}
+        ]},
+        {topic:`MongoDB integration`, resource:`MongoDB Crash Course 2026 (with Handbook) — CodeWithHarry`, detail:`Then connect it to your FastAPI project as the backing store.`, children:[
+          {topic:`CRUD operations in MongoDB`, detail:`Insert, find, update, delete documents.`},
+          {topic:`Connect FastAPI to MongoDB`, detail:`Motor or PyMongo as the driver layer.`},
+          {topic:`Replace in-memory storage`, detail:`Swap any placeholder storage for the real database.`}
+        ]},
+        {topic:`Linux fundamentals`, detail:`The baseline every debugging scenario assumes.`, children:[
+          {topic:`Filesystem hierarchy`, detail:`/etc, /var, /proc and what lives where.`},
+          {topic:`Permissions & ownership`, detail:`chmod, chown, and the owner/group/other model.`},
+          {topic:`Process management`, detail:`ps, top, kill, background vs foreground.`},
+          {topic:`systemd basics`, detail:`Units, services, starting/stopping/enabling.`},
+          {topic:`journald log inspection`, detail:`journalctl for reading and filtering system logs.`}
+        ]},
+        {topic:`Networking fundamentals`, resource:`Computer Networking & System Design for DevOps in OneShot — TrainWithShubham`, detail:`This is the "walk me through what happens when you type a URL" interview question.`, children:[
+          {topic:`OSI model`, detail:`The 7 layers, conceptually — enough to reason about failures.`},
+          {topic:`DNS resolution`, detail:`How a domain name becomes an IP address.`},
+          {topic:`TCP vs UDP`, detail:`Reliable vs fast, and when each is used.`},
+          {topic:`HTTP/HTTPS handshake`, detail:`TLS negotiation and what a certificate actually does.`},
+          {topic:`Reverse proxies`, detail:`What nginx/Envoy-style proxies are doing for you.`}
+        ]},
+        {topic:`Shell scripting`, resource:`Shell Scripting in One Shot | 3 Live Projects for DevOps — TrainWithShubham`, detail:`Three real scripts, not toy examples.`, children:[
+          {topic:`Backup script`, detail:`Archive and store a real directory on a schedule.`},
+          {topic:`Health-check script`, detail:`curl an endpoint and alert on failure.`},
+          {topic:`Log-rotation script`, detail:`Rotate and compress logs past a size or age threshold.`}
+        ]}
+      ]
+    },
+    { num:3, title:`Infrastructure as Code & Cloud Foundations`, weeks:`Weeks 5–7`, category:`Cloud & IaC`, hoursLabel:`45–50`, hoursMid:47.5,
+      why:`Cloud platform depth is described as the single most universal expectation across almost every DevOps posting — but depth in one cloud beats shallow coverage of two. Going deep on AWS now, with SageMaker waiting in Stage 7, compounds later.`,
+      checkpoint:`You can provision a VPC, an EC2 instance, and an S3 bucket entirely through Terraform from scratch, tear it down, and explain what each terraform apply step actually does to AWS underneath — no notes.`,
+      items:[
+        {topic:`Terraform`, resource:`Terraform In One Shot — TrainWithShubham`, detail:`Then immediately rebuild one resource group from scratch without the video.`, children:[
+          {topic:`Syntax & providers`, detail:`HCL basics and configuring a provider block.`},
+          {topic:`State management`, detail:`What terraform.tfstate is actually tracking.`},
+          {topic:`Modules`, detail:`Packaging reusable infrastructure.`},
+          {topic:`Rebuild from memory`, detail:`Recreate one resource group with no video open.`}
+        ]},
+        {topic:`Ansible`, resource:`Ansible In One Shot | Production Ready DevOps — TrainWithShubham`, detail:`Same rebuild-from-memory approach as Terraform.`, children:[
+          {topic:`Playbooks`, detail:`YAML task lists and execution order.`},
+          {topic:`Roles`, detail:`Organizing playbooks for reuse.`},
+          {topic:`Inventory`, detail:`Defining the hosts Ansible manages.`}
+        ]},
+        {topic:`AWS in depth`, resource:`AWS: Zero To Hero course`, detail:`This is your primary cloud — go deep here rather than splitting time with a second provider.`, children:[
+          {topic:`IAM & least privilege`, resource:`AWS S3, IAM & CLI Explained in 1 Hour — TrainWithShubham`, detail:`Set up an over-permissioned role, then tighten it and explain why each permission was removed.`},
+          {topic:`VPC, EC2, S3`, resource:`AWS Billing, Monitoring & VPC in One Shot — TrainWithShubham`, detail:`Build a VPC with public/private subnets by hand once, then again via Terraform.`},
+          {topic:`Billing & Cost Explorer`, resource:`AWS Billing, Monitoring & VPC in One Shot — TrainWithShubham`, detail:`Set a budget alert on your own account before you spend real money.`},
+          {topic:`RDS, DynamoDB, Lambda`, resource:`AWS RDS, DynamoDB & Lambda in 1 Video — TrainWithShubham`, detail:`One small serverless function that reads from DynamoDB.`}
+        ]},
+        {topic:`Azure — light pass`, resource:`Azure Zero to Hero (30-video course) — Abhishek Veeramalla`, detail:`Watch the VNet, IAM, and AKS sections only for conceptual familiarity. Skip the rest for now; come back in the specialization track if a job posting demands it.`, children:[
+          {topic:`VNet basics`, detail:`Azure's equivalent of a VPC.`},
+          {topic:`IAM in Azure`, detail:`Role assignments vs AWS's policy model.`},
+          {topic:`AKS overview`, detail:`Managed Kubernetes on Azure, conceptually.`}
+        ]}
+      ]
+    },
+    { num:4, title:`Containers & CI/CD`, weeks:`Weeks 8–9`, category:`Containers & Kubernetes`, hoursLabel:`30–35`, hoursMid:32.5,
+      why:`DevSecOps means security checks are expected inside the pipeline, not after it — starting the Trivy habit here, on your own project, is what makes it automatic later instead of a checkbox you bolt on before an interview.`,
+      checkpoint:`A git push to your repo triggers a pipeline that builds, scans, and deploys your containerized app automatically, and you can diagram the pipeline stages from memory.`,
+      items:[
+        {topic:`Docker fundamentals`, resource:`Docker In One Shot — TrainWithShubham`, detail:`Dockerize your Stage 2 FastAPI + MongoDB project.`, children:[
+          {topic:`Images & layers`, detail:`How layer caching actually works.`},
+          {topic:`Multi-stage builds`, detail:`Keeping final images small.`},
+          {topic:`.dockerignore`, detail:`Keeping build context clean.`},
+          {topic:`Volumes vs bind mounts`, detail:`Persisting data the right way for each case.`}
+        ]},
+        {topic:`Docker security (Trivy)`, resource:`Docker With AI & Security — TrainWithShubham`, detail:`Run a scan on your own image before you ever push it anywhere.`, children:[
+          {topic:`Scan image with Trivy`, detail:`Run it against your own dockerized app.`},
+          {topic:`Fix a real finding`, detail:`Don't just read the report — patch at least one issue.`}
+        ]},
+        {topic:`Deploy to ECS/ECR`, resource:`Docker to AWS Deployment | ECS + ECR Real-World Project — TrainWithShubham`, detail:`Point the project at your own app, not the tutorial's sample.`, children:[
+          {topic:`Push image to ECR`, detail:`Tag and push your own image.`},
+          {topic:`Deploy the service to ECS`, detail:`Run it as a live ECS service.`}
+        ]},
+        {topic:`CI/CD pipelines`, resource:`Jenkins In One Shot — TrainWithShubham · GitHub Actions Tutorial — Piyush Garg`, detail:`Build the same app through more than one pipeline so you can compare them in an interview.`, children:[
+          {topic:`GitHub Actions pipeline`, detail:`Build, scan, deploy on every push.`},
+          {topic:`Jenkins pipeline`, detail:`The same flow, self-hosted CI style.`},
+          {topic:`(bonus) GitLab CI pipeline`, detail:`GitLab In One Shot — TrainWithShubham. Optional third comparison point.`}
+        ]},
+        {topic:`Self-hosted GH runner`, resource:`Self-Hosted GitHub Actions Runner — LearnWithDevOpsEngineer`, detail:`Explain why a company would want this rather than just following the steps.`, children:[
+          {topic:`Set up runner on a small VM`, detail:`Register and configure the runner service.`},
+          {topic:`Explain the rationale`, detail:`Cost and network access to private resources.`}
+        ]}
+      ]
+    },
+    { num:5, title:`Kubernetes Core`, weeks:`Weeks 10–12`, category:`Containers & Kubernetes`, hoursLabel:`40–45`, hoursMid:42.5,
+      why:`Kubernetes proficiency has moved from differentiator to baseline requirement — but observability is the most-cited missing baseline skill among candidates. Doing it now, on your own app, means you walk into interviews with a real Grafana dashboard to screen-share instead of describing one abstractly.`,
+      checkpoint:`You can explain the difference between a rolling update, blue-green, and canary deploy using your own dashboards as evidence of what changed at each stage, live.`,
+      items:[
+        {topic:`Kubernetes fundamentals`, resource:`Kubernetes In One Shot | 3 Live DevOps Projects — TrainWithShubham`, detail:`Your spine for the rest of this stage.`, children:[
+          {topic:`Pods & Deployments`, detail:`The core scheduling and rollout unit.`},
+          {topic:`Services & Ingress`, detail:`Exposing pods internally and externally.`},
+          {topic:`ConfigMaps & Secrets`, detail:`Externalizing config from your container images.`}
+        ]},
+        {topic:`Deploy to a real cluster`, resource:`Deploy Kubernetes WordPress LIVE in 15 Min — TrainWithShubham`, detail:`Start local, then move to a managed cluster.`, children:[
+          {topic:`Local cluster (kind/minikube)`, detail:`Get comfortable before paying for a managed one.`},
+          {topic:`EKS once comfortable`, detail:`Deploy your Stage 4 dockerized app to EKS.`}
+        ]},
+        {topic:`Deployment strategies`, resource:`Kubernetes Deployment Strategies Explained — TrainWithShubham`, detail:`Do all three on your own app, not a demo app.`, children:[
+          {topic:`Rolling update`, detail:`The default gradual-replacement strategy.`},
+          {topic:`Blue-green deploy`, detail:`Two full environments, instant cutover.`},
+          {topic:`Canary deploy`, detail:`Small percentage of traffic to the new version first.`}
+        ]},
+        {topic:`Observability`, detail:`Introduced here — this was missing from the original plan.`, children:[
+          {topic:`Prometheus + Grafana`, detail:`Install both on your cluster.`},
+          {topic:`Custom app metrics`, detail:`Instrument FastAPI with prometheus-client — request count, latency.`},
+          {topic:`Grafana dashboard`, detail:`Build one from scratch, not an imported template.`},
+          {topic:`SLO & error budget`, detail:`E.g. "99% of requests under 200ms, measured over 7 days."`}
+        ]}
+      ]
+    },
+    { num:6, title:`Advanced Kubernetes: GitOps, Custom Operators & Security`, weeks:`Weeks 13–16`, category:`Containers & Kubernetes`, hoursLabel:`50–55`, hoursMid:52.5,
+      why:`Learning Go to the point of writing and reviewing a small operator is specifically called out as one of the highest-ROI moves for senior platform engineering roles — most DevOps-track candidates never get here, which is exactly why it differentiates you.`,
+      checkpoint:`You have a working custom operator on GitHub (not forked, self-designed CRD), a Gatekeeper/Kyverno policy actively blocking bad deploys on your cluster, and you can explain the full GitOps loop from git push to running pod without hand-waving any step.`,
+      items:[
+        {topic:`GitOps with ArgoCD`, resource:`ArgoCD In One Shot | Full CI/CD Pipeline — TrainWithShubham`, detail:`A git push should be the only action that changes what's running.`, children:[
+          {topic:`Install ArgoCD`, detail:`Get it running on your Stage 5 cluster.`},
+          {topic:`Connect it to your Git repo`, detail:`Point ArgoCD at your app's manifests.`},
+          {topic:`Verify the sync loop`, detail:`Push a change and watch it deploy automatically.`}
+        ]},
+        {topic:`Production-style cluster`, resource:`Kubernetes To Production In One Shot | EKS Auto Mode | ArgoCD | GitOps — TrainWithShubham`, detail:`Rebuild the ArgoCD pipeline setup on your own cluster.`, children:[
+          {topic:`EKS Auto Mode setup`, detail:`A more production-realistic cluster configuration.`},
+          {topic:`Rebuild the ArgoCD pipeline`, detail:`Redo the GitOps setup here without the video.`}
+        ]},
+        {topic:`Custom K8s operator`, resource:`Build Your Own Kubernetes Operators with Go and Kubebuilder – Full Course — freeCodeCamp.org`, detail:`Design your own CRD, not the tutorial's example resource.`, children:[
+          {topic:`Scaffold with Kubebuilder`, detail:`Generate the operator project structure.`},
+          {topic:`Design your own CRD`, detail:`Suggestion: a ScheduledBackup CRD that spins up a CronJob to back up a resource.`},
+          {topic:`Implement the reconcile loop`, detail:`The core control-loop logic the operator runs.`},
+          {topic:`Test against a live cluster`, detail:`Create your CRD and watch the operator react.`}
+        ]},
+        {topic:`Policy-as-code`, detail:`Introduced here — admission control for your cluster.`, children:[
+          {topic:`Install Gatekeeper/Kyverno`, detail:`Pick one and get it running.`},
+          {topic:`Write an admission policy`, detail:`Block any Deployment that doesn't set resource limits.`},
+          {topic:`Test policy enforcement`, detail:`Try to deploy something that violates it, on purpose.`}
+        ]},
+        {topic:`Secrets management`, detail:`Wire your app to pull from a real secret store instead of a plaintext K8s Secret.`, children:[
+          {topic:`AWS Secrets Manager option`, detail:`Pull a secret at runtime from Secrets Manager.`},
+          {topic:`Vault option`, detail:`Or the equivalent flow through HashiCorp Vault.`}
+        ]}
+      ]
+    },
+    { num:7, title:`MLOps Foundations`, weeks:`Weeks 17–19`, category:`MLOps`, hoursLabel:`45–50`, hoursMid:47.5,
+      why:`MLOps salaries span an unusually wide range specifically because the title covers three different jobs — ML platform engineer, ML infrastructure engineer, and applied MLOps. Having hands-on reps across DVC, MLflow, KServe, SageMaker, and Kubeflow means you can credibly claim all three angles instead of just one.`,
+      checkpoint:`You can take a model from a training script to a live, versioned, monitored endpoint on your own cluster, end to end, and explain what would break first if traffic 10x'd overnight.`,
+      items:[
+        {topic:`Data/model versioning`, resource:`MLOps Zero to Hero (DVC module) — Abhishek Veeramalla`, detail:`Version at least 3 model iterations.`, children:[
+          {topic:`Initialize DVC`, detail:`Set it up on a small dataset + training script.`},
+          {topic:`Track dataset versions`, detail:`Commit dataset changes through DVC.`},
+          {topic:`Version 3 model iterations`, detail:`Enough to see the versioning workflow actually matter.`}
+        ]},
+        {topic:`Experiment tracking`, resource:`MLOps Zero to Hero (MLflow module) — Abhishek Veeramalla`, detail:`Compare runs in the MLflow UI.`, children:[
+          {topic:`Instrument the training script`, detail:`Log metrics and params as it runs.`},
+          {topic:`Log metrics & params`, detail:`Across multiple training runs.`},
+          {topic:`Compare runs in the UI`, detail:`Use MLflow's UI to compare results side by side.`}
+        ]},
+        {topic:`Model serving (KServe)`, resource:`MLOps Zero to Hero (KServe module) — Abhishek Veeramalla`, detail:`Deploy on your Stage 6 cluster.`, children:[
+          {topic:`Package the model for serving`, detail:`Get it into a servable format.`},
+          {topic:`Deploy via KServe`, detail:`Stand up the inference service.`},
+          {topic:`Test the inference endpoint`, detail:`Send real requests and check responses.`}
+        ]},
+        {topic:`AWS MLOps (SageMaker)`, resource:`MLOps Zero to Hero (SageMaker module) — Abhishek Veeramalla`, detail:`So you can compare "roll your own on K8s" vs "managed service" — interviewers ask this directly.`, children:[
+          {topic:`SageMaker training job`, detail:`Run the same model through SageMaker's training flow.`},
+          {topic:`SageMaker endpoint deployment`, detail:`Deploy it as a managed endpoint.`},
+          {topic:`Compare vs self-hosted K8s`, detail:`Write down the actual trade-offs you noticed.`}
+        ]},
+        {topic:`Kubeflow pipeline`, resource:`MLOps Zero to Hero (Kubeflow module) — Abhishek Veeramalla`, detail:`One end-to-end multi-step pipeline.`, children:[
+          {topic:`Data prep step`, detail:`The first stage of the pipeline.`},
+          {topic:`Train step`, detail:`Trains on the prepared data.`},
+          {topic:`Evaluate step`, detail:`Scores the trained model.`}
+        ]},
+        {topic:`Drift monitoring`, detail:`Doesn't need to be sophisticated — it needs to exist and be explainable.`, children:[
+          {topic:`Compare inference vs training distribution`, detail:`A basic statistical comparison is enough to start.`},
+          {topic:`Flag a basic drift signal`, detail:`Threshold-based alert when distributions diverge.`}
+        ]}
+      ]
+    },
+    { num:8, title:`AI Engineering Layer: Build, Don't Just Use`, weeks:`Weeks 20–21`, category:`AI Engineering`, hoursLabel:`35–40`, hoursMid:37.5,
+      why:`Nearly every "top AI engineer skills" analysis for 2026 puts RAG, multi-agent orchestration, and evaluation/observability in the top tier of what employers actually pay for — using AI tools well is table stakes now; building and evaluating your own AI systems is the differentiator.`,
+      checkpoint:`You can run your eval harness against your RAG pipeline, get a numeric score, deliberately break something (bad retrieval, bad prompt), watch the score drop, and explain why.`,
+      items:[
+        {topic:`MCP for DevOps`, resource:`Stop Wasting Hours Making Architecture Diagrams | MCP For DevOps · Kubernetes MCP Server For DevOps`, detail:`Connect an MCP server to a real tool of yours, not a demo.`, children:[
+          {topic:`Understand MCP server basics`, detail:`What an MCP server actually exposes to a model.`},
+          {topic:`Connect an MCP server to your cluster`, detail:`Wire it to your Stage 6 Kubernetes cluster.`},
+          {topic:`Explore the Kubernetes MCP server`, detail:`See what a purpose-built K8s MCP server offers.`}
+        ]},
+        {topic:`RAG pipeline from scratch`, detail:`Your own project docs are a good corpus.`, children:[
+          {topic:`Set up a vector DB`, detail:`Chroma or pgvector is fine to start.`},
+          {topic:`Build the retrieval step`, detail:`Embed and retrieve relevant chunks.`},
+          {topic:`Build the generation step`, detail:`Generate an answer grounded in retrieved context.`}
+        ]},
+        {topic:`Multi-agent workflow`, resource:`Agentic AI For DevOps — TrainWithShubham · AI Agentic Memory System Design — Piyush Garg`, detail:`At least two agents with distinct roles that hand off work.`, children:[
+          {topic:`Design two agents with distinct roles`, detail:`LangGraph or CrewAI, your choice.`},
+          {topic:`Implement the hand-off logic`, detail:`One agent's output becomes another's input.`},
+          {topic:`Add memory/state if needed`, detail:`Only if your workflow actually needs it.`}
+        ]},
+        {topic:`Evaluation harness`, detail:`This is the step almost everyone skips — it's what separates a demo from something you can defend under questioning.`, children:[
+          {topic:`Build a golden dataset`, detail:`10–20 examples with expected outputs is enough to start.`},
+          {topic:`Write an automated scoring script`, detail:`Score outputs against the golden dataset.`},
+          {topic:`Run it against your system`, detail:`Your RAG pipeline or your agent workflow.`}
+        ]}
+      ]
+    },
+    { num:9, title:`Platform Engineering Capstone`, weeks:`Weeks 22–23`, category:`Platform Engineering`, hoursLabel:`25–30`, hoursMid:27.5,
+      why:`This stage is the concrete, demonstrable difference between a "DevOps engineer" resume line and a "Platform Engineer" resume line — internal developer platforms and FinOps are both named among the top trends reshaping hiring this year, and almost no entry-level candidate has hands-on reps here.`,
+      checkpoint:`You can give a 5-minute walkthrough of your Backstage catalog entry, your Crossplane composition, and one real cost finding from your own AWS account, as if presenting to a hiring manager.`,
+      items:[
+        {topic:`Backstage developer portal`, detail:`Register at least one of your own services in the catalog.`, children:[
+          {topic:`Install Backstage locally`, detail:`Stand up a basic developer portal.`},
+          {topic:`Register one of your services`, detail:`From Stage 5 or 6.`},
+          {topic:`Explore the catalog UI`, detail:`See how a platform team surfaces services to developers.`}
+        ]},
+        {topic:`Crossplane composition`, detail:`Understand the abstraction layer platform teams build for other developers.`, children:[
+          {topic:`Install Crossplane`, detail:`On your existing cluster.`},
+          {topic:`Define a composition`, detail:`E.g. an S3 bucket + IAM role.`},
+          {topic:`Provision through Crossplane`, detail:`Instead of raw Terraform, for this one piece.`}
+        ]},
+        {topic:`FinOps basics`, detail:`One real cost finding, not a hypothetical one.`, children:[
+          {topic:`Tag AWS resources`, detail:`By project/team, consistently.`},
+          {topic:`Pull a cost breakdown`, detail:`From Cost Explorer.`},
+          {topic:`Install Kubecost & find one optimization`, detail:`E.g. an oversized node pool, if you have a live cluster.`}
+        ]},
+        {topic:`DORA metrics`, detail:`Calculate rough numbers for your own project's git history.`, children:[
+          {topic:`Deployment frequency`, detail:`How often you actually ship.`},
+          {topic:`Lead time for changes`, detail:`Commit to production, roughly.`},
+          {topic:`Change failure rate & MTTR`, detail:`How often deploys break things, and how fast you recover.`}
+        ]}
+      ]
+    },
+    { num:10, title:`Flagship Projects`, weeks:`Weeks 24–27`, category:`Flagship Projects`, hoursLabel:`60–70`, hoursMid:65,
+      why:`By this point you have all the pieces. This stage is about integrating them into three complete, original systems — not new tutorials, just assembly and polish of what you've already built in Stages 1–9.`,
+      checkpoint:`Each project's milestones are met using components you already built, not new tutorials — this is assembly and polish, not new learning.`,
+      projects:[
+        { name:`Project 1 — Self-Service ML Platform with a Custom Kubernetes Operator`,
+          desc:`Combine: your Stage 6 operator + Stage 7 KServe/MLflow work + Stage 5 Prometheus/Grafana + Stage 6 OPA policy + a thin FastAPI portal on top.`,
+          resource:`Inspired by: Kubernetes AI Troubleshooting Agent · Upgrade Kubernetes Clusters with AI — Abhishek Veeramalla's AI DevOps Projects`,
+          items:[
+            {topic:`KServe auto-provisioning`, detail:`Operator provisions a KServe endpoint automatically when a MLModelDeployment CRD is created.`},
+            {topic:`Unified Grafana dashboard`, detail:`Grafana dashboard shows both infra and model metrics side by side.`},
+            {topic:`OPA blocks bad deploys`, detail:`A bad deploy (missing resource limits or unscanned image) is blocked by your OPA policy automatically.`},
+            {topic:`Self-service FastAPI portal`, detail:`A data scientist (you, playing that role) can go from "I have a model" to "I have a live endpoint + cost estimate" through your FastAPI portal alone, no kubectl.`}
+          ]
+        },
+        { name:`Project 2 — Autonomous Infrastructure Drift & Cost Agent`,
+          desc:`Combine: your Stage 8 agent-building skills + Stage 3 Terraform state + a self-built MCP tool server + your Stage 9 FinOps instrumentation.`,
+          resource:`Inspired by: Terraform Drift Detector · AI Cloud Cost Detective — Abhishek Veeramalla's AI DevOps Projects`,
+          items:[
+            {topic:`MCP drift & cost tools`, detail:`Your own MCP tool server exposes "diff live state vs Terraform state" and "estimate monthly cost of resource X."`},
+            {topic:`Agent opens fix PRs`, detail:`The agent detects at least one seeded drift scenario and opens a real GitHub PR with a proposed fix — it never auto-applies.`},
+            {topic:`Eval precision/recall`, detail:`Your eval harness measures precision/recall on 5–10 seeded scenarios before you trust it on anything real.`},
+            {topic:`Slack summary`, detail:`A Slack message summarizes findings in plain English.`}
+          ]
+        },
+        { name:`Project 3 — Production LLM Inference Platform with Progressive Delivery`,
+          desc:`Combine: your Stage 7 KServe/Ray Serve experience + Stage 6 Argo Rollouts-style progressive delivery + Stage 8 eval harness + Stage 5 observability.`,
+          resource:`Inspired by: Run AI-based DevSecOps on every Pull Request — Abhishek Veeramalla's AI DevOps Projects`,
+          items:[
+            {topic:`Serve an open-weight model`, detail:`A small open-weight model is served on your cluster.`},
+            {topic:`Canary gated by eval`, detail:`A new model version is promoted via canary or blue-green, gated by your RAGAS-style eval — a quality drop blocks promotion automatically.`},
+            {topic:`FastAPI gateway`, detail:`A gateway in front handles rate limiting and OpenTelemetry tracing.`},
+            {topic:`Cost + quality dashboard`, detail:`A Grafana dashboard shows GPU/inference cost alongside quality metrics.`}
+          ]
+        }
+      ]
+    },
+    { num:11, title:`Interview Prep & Job Search`, weeks:`Weeks 28–29`, category:`Career`, hoursLabel:`20–25`, hoursMid:22.5,
+      why:`This is where the previous ten stages get converted into an actual offer — the projects only count if you can walk someone through them from a blank whiteboard.`,
+      checkpoint:`You can walk an interviewer through all three flagship projects end to end, from a blank whiteboard, without your GitHub open.`,
+      items:[
+        {topic:`Resume positioning`, resource:`Google Employee Reveals How to Build a Resume That Gets Shortlisted — TrainWithShubham`, detail:`Quantify wherever you can.`, children:[
+          {topic:`Structure around the hybrid positioning`, detail:`"DevOps Engineer with ML/platform specialization."`},
+          {topic:`Quantify each project bullet`, detail:`Latency numbers, cost savings found, eval scores.`},
+          {topic:`Get feedback & iterate`, detail:`Don't send the first draft out.`}
+        ]},
+        {topic:`System design prep`, detail:`Not generic algorithm interviews — your own systems.`, children:[
+          {topic:`Practice explaining your architecture`, detail:`Out loud, from memory.`},
+          {topic:`Whiteboard your flagship projects`, detail:`As if they were system-design prompts.`},
+          {topic:`Practice trade-off questions`, detail:`Why this choice over the alternative.`}
+        ]},
+        {topic:`Behavioral prep`, detail:`Real moments, not rehearsed platitudes.`, children:[
+          {topic:`A bug that took a day to find`, detail:`What made it hard, and how you found it.`},
+          {topic:`A design decision you reversed`, detail:`What changed your mind.`},
+          {topic:`A collaboration story`, detail:`Working with or around someone else's constraints.`}
+        ]},
+        {topic:`Apply strategy`, detail:`Titles vs keywords are not the same thing.`, children:[
+          {topic:`Primary titles`, detail:`"DevOps Engineer" / "Cloud Engineer" in all three markets.`},
+          {topic:`Keywords, not titles`, detail:`"MLOps," "Platform Engineering," "AI Infrastructure" on your resume/profile.`},
+          {topic:`Target GCCs/product companies`, detail:`If applying in India — they pay a premium over service companies.`}
+        ]}
+      ]
+    }
+  ];
+
+  const specialization = [
+    {topic:`AWS certification`, detail:`Solutions Architect Associate/Professional, now that you have real hands-on time behind the concepts.`},
+    {topic:`Observability depth`, detail:`Real incident response drills, not just dashboards.`},
+    {topic:`Azure, properly`, detail:`Come back and do the full 30-video Azure course now, if a specific job or market (especially UK enterprise) calls for it.`},
+    {topic:`Open-source contribution`, detail:`Get one real PR merged into a Kubernetes operator, CNCF project, or MLOps tool. Repeatedly named as the single highest-signal resume line, ahead of solo projects.`},
+    {topic:`LLMOps depth`, detail:`Self-hosted inference at scale (vLLM), more advanced multi-agent patterns, cost optimization for inference workloads.`}
+  ];
+
+  /* ---------- build flat leaf-item registry ---------- */
+  let uid = 0;
+  function reg(stageIdx, arr, isChild){
+    return arr.map(it=>{
+      const id = "i" + (uid++);
+      const node = { id, topic:it.topic, detail:it.detail, resource:it.resource || null, stageIdx, checked:false };
+      if(it.children){
+        node.children = reg(stageIdx, it.children, true);
+        node.isParent = true;
+      } else {
+        node.isChild = !!isChild;
+      }
+      return node;
+    });
+  }
+
+  stages.forEach((s, idx)=>{
+    if(s.projects){
+      s.projects.forEach(p=>{ p.items = reg(idx, p.items, false); });
+    } else {
+      s.items = reg(idx, s.items, false);
+    }
+  });
+  specialization.__items = reg(-1, specialization, false);
+
+  function leavesOfStage(s){
+    let out = [];
+    const walk = (arr)=>arr.forEach(it=>{ if(it.children) walk(it.children); else out.push(it); });
+    if(s.projects){ s.projects.forEach(p=>walk(p.items)); }
+    else walk(s.items);
+    return out;
+  }
+  function allNodesOfStage(s){
+    let out = [];
+    const walk = (arr)=>arr.forEach(it=>{ out.push(it); if(it.children) walk(it.children); });
+    if(s.projects){ s.projects.forEach(p=>walk(p.items)); }
+    else walk(s.items);
+    return out;
+  }
+
+  /* ---------- persistence ---------- */
+  const STORE_KEY = "roadmap_tracker_state_v3";
+  let checkedMap = {};
+  let hrsPerWeek = 18;
+  const openDetails = new Set();
+
+  async function storageGet(key){
+    try{
+      if(window.storage){
+        const r = await window.storage.get(key, false);
+        return r ? r.value : null;
+      }
+    }catch(e){}
+    try{ return localStorage.getItem(key); }catch(e){ return null; }
+  }
+  async function storageSet(key, val){
+    try{
+      if(window.storage){ await window.storage.set(key, val, false); return; }
+    }catch(e){}
+    try{ localStorage.setItem(key, val); }catch(e){}
+  }
+
+  let saveTimer = null;
+  function scheduleSave(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(()=>{
+      storageSet(STORE_KEY, JSON.stringify({ checked:checkedMap, hrsPerWeek }));
+    }, 250);
+  }
+
+  /* ---------- filters ---------- */
+  const state = { cats:new Set(Object.keys(CATS)), status:"all" };
+
+  /* ---------- render: rail ---------- */
+  const railList = document.getElementById("railList");
+  function renderRail(){
+    railList.innerHTML = stages.map(s=>{
+      const leaves = leavesOfStage(s);
+      const done = leaves.filter(l=>checkedMap[l.id]).length;
+      const pct = leaves.length ? done/leaves.length : 0;
+      let cls = "";
+      if(pct === 1) cls = "is-done"; else if(pct > 0) cls = "is-partial";
+      const hiddenCls = state.cats.has(s.category) ? "" : " is-hidden";
+      return `<li class="rail-item ${cls}${hiddenCls}" data-stage="${s.num}" style="--rail-cat:${CATS[s.category]}">
+        <a class="rail-link" href="#stage-${s.num}">
+          <span class="rail-dot"></span>
+          <span class="rail-num">${String(s.num).padStart(2,"0")}</span>
+          <span class="rail-title">${s.title}</span>
+          <span class="rail-frac">${done}/${leaves.length}</span>
+        </a>
+      </li>`;
+    }).join("");
+  }
+
+  /* ---------- render: hero segbar + legend ---------- */
+  const segbarEl = document.getElementById("segbar");
+  const legendEl = document.getElementById("legend");
+  function renderSegbar(){
+    const total = stages.reduce((a,s)=>a+s.hoursMid,0);
+    segbarEl.innerHTML = stages.map(s=>{
+      const leaves = leavesOfStage(s);
+      const done = leaves.filter(l=>checkedMap[l.id]).length;
+      const pct = leaves.length ? (done/leaves.length*100) : 0;
+      const flex = (s.hoursMid/total*100).toFixed(3);
+      return `<div class="segbar-seg" style="flex:0 0 ${flex}%; background:${CATS[s.category]}22" title="Stage ${s.num}: ${s.title} — ${Math.round(pct)}%">
+        <div class="segbar-fill" style="width:${pct}%; background:${CATS[s.category]}"></div>
+      </div>`;
+    }).join("");
+
+    const seen = new Set();
+    legendEl.innerHTML = stages.filter(s=>{
+      if(seen.has(s.category)) return false;
+      seen.add(s.category); return true;
+    }).map(s=>`<div class="legend-item"><span class="legend-swatch" style="background:${CATS[s.category]}"></span>${s.category}</div>`).join("");
+  }
+
+  /* ---------- render: hero stats ---------- */
+  function renderStats(){
+    const allLeaves = stages.flatMap(leavesOfStage);
+    const done = allLeaves.filter(l=>checkedMap[l.id]).length;
+    const total = allLeaves.length;
+    const pct = total ? Math.round(done/total*100) : 0;
+
+    let hoursDone = 0, hoursTotal = 0;
+    stages.forEach(s=>{
+      const leaves = leavesOfStage(s);
+      const ratio = leaves.length ? leaves.filter(l=>checkedMap[l.id]).length/leaves.length : 0;
+      hoursDone += s.hoursMid*ratio;
+      hoursTotal += s.hoursMid;
+    });
+
+    document.getElementById("pctBig").innerHTML = pct + "<small>%</small>";
+    document.getElementById("doneCount").textContent = done;
+    document.getElementById("totalCount").textContent = total;
+    document.getElementById("hoursDone").textContent = Math.round(hoursDone);
+    document.getElementById("hoursTotal").textContent = Math.round(hoursTotal);
+
+    const remaining = Math.max(hoursTotal - hoursDone, 0);
+    const weeks = hrsPerWeek > 0 ? (remaining/hrsPerWeek) : 0;
+    const etaEl = document.getElementById("etaLine");
+    if(remaining < 1){
+      etaEl.textContent = "All logged hours complete.";
+    } else {
+      etaEl.textContent = `≈ ${Math.round(remaining)} hrs left → about ${weeks.toFixed(1)} weeks to finish`;
+    }
+  }
+
+  /* ---------- render: glance grid ---------- */
+  function renderGlance(){
+    const grid = document.getElementById("glanceGrid");
+    grid.innerHTML = stages.map(s=>{
+      const leaves = leavesOfStage(s);
+      const done = leaves.filter(l=>checkedMap[l.id]).length;
+      const pct = leaves.length ? Math.round(done/leaves.length*100) : 0;
+      return `<div class="glance-cell" style="--gc-color:${CATS[s.category]}">
+        <span class="gname">${String(s.num).padStart(2,"0")} · ${s.title}</span>
+        <span class="gpct">${pct}%</span>
+      </div>`;
+    }).join("");
+  }
+
+  /* ---------- checkbox row builder (compact topic + expandable detail) ---------- */
+  function checkRow(node, stageColor, isChild){
+    const rowClasses = [
+      "check-item",
+      isChild ? "is-child" : "",
+      node.isParent ? "is-parent" : "",
+      checkedMap[node.id] ? "is-checked" : "",
+      openDetails.has(node.id) ? "is-expanded" : ""
+    ].join(" ");
+    const resourceHtml = node.resource ? `<div class="check-resource">▶ ${node.resource}</div>` : "";
+    return `<li class="${rowClasses}" style="--stage-color:${stageColor}">
+      <div class="check-main">
+        <input type="checkbox" id="cb-${node.id}" data-id="${node.id}" ${node.isParent ? "data-parent='1'" : ""}>
+        <label class="check-topic" for="cb-${node.id}">${node.topic}</label>
+        <button type="button" class="detail-toggle" data-detail-toggle="${node.id}" aria-label="Show detail" aria-expanded="${openDetails.has(node.id)}"><span class="mini-chevron"></span></button>
+      </div>
+      <div class="check-detail">${resourceHtml}${node.detail || ""}</div>
+    </li>` + (node.children ? node.children.map(c=>checkRow(c, stageColor, true)).join("") : "");
+  }
+
+  /* ---------- render: stage cards ---------- */
+  const openStages = new Set();
+  const container = document.getElementById("stageContainer");
+
+  function renderStages(){
+    container.innerHTML = stages.map(s=>{
+      const color = CATS[s.category];
+      const leaves = leavesOfStage(s);
+      const done = leaves.filter(l=>checkedMap[l.id]).length;
+      const total = leaves.length;
+      const pct = total ? done/total*100 : 0;
+      const statusLabel = pct === 100 ? "done" : (pct > 0 ? "partial" : "todo");
+
+      const catMatch = state.cats.has(s.category);
+      const statusMatch = state.status === "all" || state.status === statusLabel;
+      const hidden = !(catMatch && statusMatch);
+
+      const isOpen = openStages.has(s.num);
+
+      let bodyHtml = "";
+      if(s.projects){
+        bodyHtml = s.projects.map(p=>{
+          const pLeaves = p.items;
+          const pDone = pLeaves.filter(l=>checkedMap[l.id]).length;
+          const pResource = p.resource ? `<p class="project-resource">▶ ${p.resource}</p>` : "";
+          return `<div class="project-group">
+            <p class="project-name">${p.name} <span style="font-family:var(--font-mono);font-weight:400;color:var(--text-faint);font-size:11px;">(${pDone}/${pLeaves.length})</span></p>
+            <p class="project-desc">${p.desc}</p>
+            ${pResource}
+            <ul class="checklist">${p.items.map(it=>checkRow(it, color, false)).join("")}</ul>
+          </div>`;
+        }).join("");
+      } else {
+        bodyHtml = `<ul class="checklist">${s.items.map(it=>checkRow(it, color, false)).join("")}</ul>`;
+      }
+
+      return `<section class="stage-section ${hidden ? "is-hidden" : ""}" id="stage-${s.num}" data-stage="${s.num}">
+        <div class="stage-card ${isOpen ? "is-open" : ""}" style="--stage-color:${color}" data-stage="${s.num}">
+          <div class="stage-head" data-toggle="${s.num}">
+            <span class="chevron"></span>
+            <span class="stage-num">${String(s.num).padStart(2,"0")}</span>
+            <div class="stage-headtext">
+              <h3 class="stage-title">${s.title}</h3>
+              <div class="stage-meta"><span class="stage-tag" style="color:${color}">${s.category}</span><span>${s.weeks}</span><span>${s.hoursLabel} hrs</span></div>
+            </div>
+            <div class="stage-pie" style="background:conic-gradient(${color} ${pct}%, var(--bg-panel-raised) 0)"></div>
+            <span class="stage-frac">${done}/${total}</span>
+          </div>
+          <div class="stage-body">
+            ${bodyHtml}
+            <div class="info-block">
+              <span class="info-label">WHY IT MATTERS IN 2026</span>${s.why}
+            </div>
+            <div class="info-block checkpoint-block">
+              <span class="info-label">CHECKPOINT</span>${s.checkpoint}
+            </div>
+          </div>
+        </div>
+      </section>`;
+    }).join("");
+  }
+
+  function renderSpec(){
+    const list = document.getElementById("specList");
+    list.innerHTML = specialization.__items.map(it=>checkRow(it, "var(--c-career)", false)).join("");
+  }
+
+  /* ---------- indeterminate sync ---------- */
+  function syncIndeterminate(){
+    document.querySelectorAll("input[type=checkbox][data-id]").forEach(cb=>{
+      const id = cb.dataset.id;
+      const node = findNode(id);
+      if(!node) return;
+      if(node.isParent){
+        const kids = node.children;
+        const doneCount = kids.filter(k=>checkedMap[k.id]).length;
+        cb.checked = doneCount === kids.length;
+        cb.indeterminate = doneCount > 0 && doneCount < kids.length;
+      } else {
+        cb.checked = !!checkedMap[id];
+      }
+    });
+  }
+
+  const allNodesFlat = {};
+  (function indexNodes(){
+    stages.forEach(s=>{
+      allNodesOfStage(s).forEach(n=>{ allNodesFlat[n.id] = n; });
+    });
+    specialization.__items.forEach(n=>{ allNodesFlat[n.id] = n; });
+  })();
+  function findNode(id){ return allNodesFlat[id]; }
+
+  /* ---------- full re-render ---------- */
+  function renderAll(){
+    renderRail();
+    renderSegbar();
+    renderStats();
+    renderGlance();
+    renderStages();
+    renderSpec();
+    syncIndeterminate();
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener("change", (e)=>{
+    const t = e.target;
+    if(t.matches("input[type=checkbox][data-id]")){
+      const id = t.dataset.id;
+      const node = findNode(id);
+      if(node.isParent){
+        const val = t.checked;
+        node.children.forEach(c=>{ checkedMap[c.id] = val; });
+      } else {
+        checkedMap[id] = t.checked;
+      }
+      scheduleSave();
+      renderAll();
+    }
+  });
+
+  document.addEventListener("click", (e)=>{
+    const detailBtn = e.target.closest("[data-detail-toggle]");
+    if(detailBtn){
+      const id = detailBtn.dataset.detailToggle;
+      if(openDetails.has(id)) openDetails.delete(id); else openDetails.add(id);
+      const li = detailBtn.closest(".check-item");
+      li.classList.toggle("is-expanded");
+      detailBtn.setAttribute("aria-expanded", li.classList.contains("is-expanded"));
+      return;
+    }
+
+    const head = e.target.closest("[data-toggle]");
+    if(head){
+      const num = parseInt(head.dataset.toggle, 10);
+      if(openStages.has(num)) openStages.delete(num); else openStages.add(num);
+      renderStages();
+      syncIndeterminate();
+      return;
+    }
+
+    const railLink = e.target.closest(".rail-link");
+    if(railLink){
+      const li = railLink.closest(".rail-item");
+      document.querySelectorAll(".rail-item").forEach(x=>x.classList.remove("is-active"));
+      li.classList.add("is-active");
+    }
+  });
+
+  const hrsSlider = document.getElementById("hrsSlider");
+  hrsSlider.addEventListener("input", (e)=>{
+    hrsPerWeek = parseInt(e.target.value, 10);
+    document.getElementById("hrsLabel").textContent = hrsPerWeek;
+    renderStats();
+    scheduleSave();
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", ()=>{
+    if(confirm("Clear all checked progress? This can't be undone.")){
+      checkedMap = {};
+      storageSet(STORE_KEY, JSON.stringify({checked:{}, hrsPerWeek}));
+      renderAll();
+    }
+  });
+
+  /* ---------- category / status chips ---------- */
+  const catChipsEl = document.getElementById("catChips");
+  function renderCatChips(){
+    catChipsEl.innerHTML = Object.keys(CATS).map(cat=>{
+      const active = state.cats.has(cat);
+      return `<button type="button" class="chip ${active ? "is-active":""}" data-cat="${cat}" style="--chip-color:${CATS[cat]}">
+        <span class="chip-dot"></span>${cat}
+      </button>`;
+    }).join("");
+  }
+  catChipsEl.addEventListener("click", (e)=>{
+    const btn = e.target.closest(".chip");
+    if(!btn) return;
+    const cat = btn.dataset.cat;
+    if(state.cats.has(cat)){
+      if(state.cats.size > 1) state.cats.delete(cat);
+    } else state.cats.add(cat);
+    renderCatChips();
+    renderRail();
+    renderStages();
+  });
+
+  const statusChipsEl = document.getElementById("statusChips");
+  const STATUSES = [["all","All"],["todo","Not started"],["partial","In progress"],["done","Done"]];
+  function renderStatusChips(){
+    statusChipsEl.innerHTML = STATUSES.map(([key,label])=>{
+      return `<button type="button" class="chip ${state.status===key ? "is-active":""}" data-status="${key}">${label}</button>`;
+    }).join("");
+  }
+  statusChipsEl.addEventListener("click", (e)=>{
+    const btn = e.target.closest(".chip");
+    if(!btn) return;
+    state.status = btn.dataset.status;
+    renderStatusChips();
+    renderStages();
+  });
+
+  /* ---------- active-section highlight ---------- */
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const num = entry.target.dataset.stage;
+        document.querySelectorAll(".rail-item").forEach(li=>li.classList.remove("is-active"));
+        const match = document.querySelector(`.rail-item[data-stage="${num}"]`);
+        if(match) match.classList.add("is-active");
+      }
+    });
+  }, { rootMargin: "-10% 0px -70% 0px" });
+
+  function observeSections(){
+    document.querySelectorAll(".stage-section").forEach(sec=>observer.observe(sec));
+  }
+
+  /* ---------- init ---------- */
+  async function init(){
+    const raw = await storageGet(STORE_KEY);
+    if(raw){
+      try{
+        const parsed = JSON.parse(raw);
+        checkedMap = parsed.checked || {};
+        if(parsed.hrsPerWeek) hrsPerWeek = parsed.hrsPerWeek;
+      }catch(e){}
+    }
+    hrsSlider.value = hrsPerWeek;
+    document.getElementById("hrsLabel").textContent = hrsPerWeek;
+
+    let opened = false;
+    for(const s of stages){
+      const leaves = leavesOfStage(s);
+      const done = leaves.filter(l=>checkedMap[l.id]).length;
+      if(done < leaves.length){ openStages.add(s.num); opened = true; break; }
+    }
+    if(!opened && stages.length) openStages.add(stages[0].num);
+
+    renderCatChips();
+    renderStatusChips();
+    renderAll();
+    observeSections();
+  }
+
+  /* ---------- 3D tilt interaction for stage cards & market cards ---------- */
+  const supportsHover = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(supportsHover && !prefersReducedMotion){
+    function attachTilt(el){
+      let raf = null;
+      el.addEventListener("mousemove", (e)=>{
+        const rect = el.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;   // 0..1
+        const py = (e.clientY - rect.top) / rect.height;   // 0..1
+        const rotY = (px - 0.5) * 10;   // left/right tilt
+        const rotX = (0.5 - py) * 8;    // up/down tilt
+        if(raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(()=>{
+          el.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(0)`;
+        });
+      });
+      el.addEventListener("mouseleave", ()=>{
+        if(raf) cancelAnimationFrame(raf);
+        el.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0)";
+      });
+    }
+    // Delegate: re-scan and attach whenever cards are (re)rendered
+    function wireTilts(){
+      document.querySelectorAll(".stage-card:not([data-tilt-on])").forEach(card=>{
+        card.setAttribute("data-tilt-on","1");
+        attachTilt(card);
+      });
+      document.querySelectorAll(".market-card:not([data-tilt-on])").forEach(card=>{
+        card.setAttribute("data-tilt-on","1");
+        attachTilt(card);
+      });
+    }
+    const tiltObserver = new MutationObserver(wireTilts);
+    tiltObserver.observe(document.getElementById("stageContainer"), {childList:true, subtree:true});
+    document.addEventListener("DOMContentLoaded", wireTilts);
+    window.addEventListener("load", wireTilts);
+    setTimeout(wireTilts, 0);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
