@@ -999,10 +999,19 @@
       openDetails.has(node.id) ? "is-expanded" : ""
     ].join(" ");
     const resourceHtml = node.resource ? `<div class="check-resource">▶ ${node.resource}</div>` : "";
+    
+    const controlHtml = node.isParent
+      ? `<div style="width:24px; height:24px; flex-shrink:0;"></div>`
+      : `<input type="checkbox" id="cb-${node.id}" data-id="${node.id}" ${isChecked ? "checked" : ""}>`;
+
+    const labelHtml = node.isParent
+      ? `<span class="check-topic">${node.topic}</span>`
+      : `<label class="check-topic" for="cb-${node.id}">${node.topic}</label>`;
+
     return `<li class="${rowClasses}" style="--stage-color:${stageColor}">
       <div class="check-main">
-        <input type="checkbox" id="cb-${node.id}" data-id="${node.id}" ${node.isParent ? "data-parent='1'" : ""} ${isChecked ? "checked" : ""}>
-        <label class="check-topic" for="cb-${node.id}">${node.topic}</label>
+        ${controlHtml}
+        ${labelHtml}
         <button type="button" class="detail-toggle" data-detail-toggle="${node.id}" aria-label="Show detail" aria-expanded="${openDetails.has(node.id)}"><span class="mini-chevron"></span></button>
       </div>
       <div class="check-detail">${resourceHtml}${node.detail || ""}</div>
@@ -1078,19 +1087,7 @@
 
   /* ---------- indeterminate sync ---------- */
   function syncIndeterminate(){
-    document.querySelectorAll("input[type=checkbox][data-id]").forEach(cb=>{
-      const id = cb.dataset.id;
-      const node = findNode(id);
-      if(!node) return;
-      if(node.isParent){
-        const kids = node.children;
-        const doneCount = kids.filter(k=>checkedMap[k.id]).length;
-        cb.checked = doneCount === kids.length;
-        cb.indeterminate = doneCount > 0 && doneCount < kids.length;
-      } else {
-        cb.checked = !!checkedMap[id];
-      }
-    });
+    // No longer needed since parent checkboxes are removed.
   }
 
   const allNodesFlat = {};
@@ -1169,12 +1166,7 @@
           }
       }
 
-      if(node.isParent){
-        const val = t.checked;
-        node.children.forEach(c=>{ checkedMap[c.id] = val; });
-      } else {
-        checkedMap[id] = t.checked;
-      }
+      checkedMap[id] = t.checked;
       
       // Check if stage just hit 100%
       if (stageBefore) {
