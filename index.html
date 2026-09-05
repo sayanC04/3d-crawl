@@ -984,17 +984,24 @@
 
   /* ---------- checkbox row builder (compact topic + expandable detail) ---------- */
   function checkRow(node, stageColor, isChild){
+    let isChecked = false;
+    if (node.isParent && node.children) {
+      isChecked = node.children.length > 0 && node.children.every(c => checkedMap[c.id]);
+    } else {
+      isChecked = !!checkedMap[node.id];
+    }
+
     const rowClasses = [
       "check-item",
       isChild ? "is-child" : "",
       node.isParent ? "is-parent" : "",
-      checkedMap[node.id] ? "is-checked" : "",
+      isChecked ? "is-checked" : "",
       openDetails.has(node.id) ? "is-expanded" : ""
     ].join(" ");
     const resourceHtml = node.resource ? `<div class="check-resource">▶ ${node.resource}</div>` : "";
     return `<li class="${rowClasses}" style="--stage-color:${stageColor}">
       <div class="check-main">
-        <input type="checkbox" id="cb-${node.id}" data-id="${node.id}" ${node.isParent ? "data-parent='1'" : ""}>
+        <input type="checkbox" id="cb-${node.id}" data-id="${node.id}" ${node.isParent ? "data-parent='1'" : ""} ${isChecked ? "checked" : ""}>
         <label class="check-topic" for="cb-${node.id}">${node.topic}</label>
         <button type="button" class="detail-toggle" data-detail-toggle="${node.id}" aria-label="Show detail" aria-expanded="${openDetails.has(node.id)}"><span class="mini-chevron"></span></button>
       </div>
