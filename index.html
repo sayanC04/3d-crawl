@@ -178,6 +178,7 @@
   .check-item:hover{background:var(--bg-hover); transform:translateX(2px);}
   .check-item.is-child{margin-left:24px;}
   .check-main{display:flex; align-items:center; gap:11px; padding:7px 8px;}
+  label.check-main{cursor:pointer;}
 
   /* ---- big, green, tactile checkboxes ---- */
   .check-main input[type=checkbox]{
@@ -1000,20 +1001,20 @@
     ].join(" ");
     const resourceHtml = node.resource ? `<div class="check-resource">▶ ${node.resource}</div>` : "";
     
+    const isLeaf = !node.isParent;
+    const tag = isLeaf ? "label" : "div";
     const controlHtml = node.isParent
       ? `<div style="width:24px; height:24px; flex-shrink:0;"></div>`
       : `<input type="checkbox" id="cb-${node.id}" data-id="${node.id}" ${isChecked ? "checked" : ""}>`;
 
-    const labelHtml = node.isParent
-      ? `<span class="check-topic">${node.topic}</span>`
-      : `<label class="check-topic" for="cb-${node.id}">${node.topic}</label>`;
+    const labelHtml = `<span class="check-topic">${node.topic}</span>`;
 
-    return `<li class="${rowClasses}" style="--stage-color:${stageColor}">
-      <div class="check-main">
+    return `<li class="${rowClasses}" data-node-id="${node.id}" style="--stage-color:${stageColor}">
+      <${tag} class="check-main">
         ${controlHtml}
         ${labelHtml}
         <button type="button" class="detail-toggle" data-detail-toggle="${node.id}" aria-label="Show detail" aria-expanded="${openDetails.has(node.id)}"><span class="mini-chevron"></span></button>
-      </div>
+      </${tag}>
       <div class="check-detail">${resourceHtml}${node.detail || ""}</div>
     </li>` + (node.children ? node.children.map(c=>checkRow(c, stageColor, true)).join("") : "");
   }
@@ -1172,20 +1173,79 @@
       if (stageBefore) {
           const doneAfter = leavesBefore.filter(l=>checkedMap[l.id]).length;
           if (doneBefore < leavesBefore.length && doneAfter === leavesBefore.length) {
-              // Get bounding rect of the checkbox to spawn confetti at its location
               const rect = t.getBoundingClientRect();
               fireConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
           }
       }
 
       scheduleSave();
-      renderAll();
+      
+      // Surgical DOM update instead of full renderStages()
+      document.querySelectorAll(".check-item").forEach(li => {
+          const nId = li.dataset.nodeId;
+          const n = findNode(nId);
+          if (n) {
+              if (n.isParent && n.children) {
+                  const allChecked = n.children.length > 0 && n.children.every(c => checkedMap[c.id]);
+                  li.classList.toggle("is-checked", allChecked);
+              } else {
+                  li.classList.toggle("is-checked", !!checkedMap[nId]);
+              }
+          }
+      });
+
+      // Update stage headers
+      if (stageBefore) {
+          const s = stageBefore;
+          const leaves = leavesOfStage(s);
+          const done = leaves.filter(l => checkedMap[l.id]).length;
+          const total = leaves.length;
+          const pct = total ? done/total*100 : 0;
+          
+          const stageEl = document.getElementById("stage-" + s.num);
+          if (stageEl) {
+              const fracEl = stageEl.querySelector(".stage-frac");
+              if (fracEl) fracEl.textContent = done + "/" + total;
+              
+              const pieEl = stageEl.querySelector(".stage-pie");
+              if (pieEl) {
+                  const color = CATS[s.category];
+                  pieEl.style.background = "conic-gradient(" + color + " " + pct + "%, var(--bg-panel-raised) 0)";
+              }
+
+              // Also update status labels for filter if needed
+              const statusLabel = pct === 100 ? "done" : (pct > 0 ? "partial" : "todo");
+              const catMatch = state.cats.has(s.category);
+              const statusMatch = state.status === "all" || state.status === statusLabel;
+              stageEl.classList.toggle("is-hidden", !(catMatch && statusMatch));
+
+              // Update project groups if any
+              if (s.projects) {
+                  const groups = stageEl.querySelectorAll(".project-group");
+                  s.projects.forEach((p, i) => {
+                      if (groups[i]) {
+                          const pLeaves = p.items;
+                          const pDone = pLeaves.filter(l => checkedMap[l.id]).length;
+                          const nameSpan = groups[i].querySelector(".project-name span");
+                          if (nameSpan) nameSpan.textContent = "(" + pDone + "/" + pLeaves.length + ")";
+                      }
+                  });
+              }
+          }
+      }
+
+      // Update other fast components
+      renderRail();
+      renderSegbar();
+      renderStats();
+      renderGlance();
     }
   });
 
   document.addEventListener("click", (e)=>{
     const detailBtn = e.target.closest("[data-detail-toggle]");
     if(detailBtn){
+      e.preventDefault();
       const id = detailBtn.dataset.detailToggle;
       if(openDetails.has(id)) openDetails.delete(id); else openDetails.add(id);
       const li = detailBtn.closest(".check-item");
