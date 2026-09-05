@@ -357,10 +357,20 @@
   </div>
 </div>
 
-<div class="music-controls" style="position: fixed; bottom: 24px; right: 24px; z-index: 1000;">
-  <button id="music-btn" style="background: var(--bg-panel); border: 1.5px solid var(--line); padding: 12px 20px; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-primary); border-radius: 4px; box-shadow: 4px 4px 0px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s ease;">🎵 Play "Right Round"</button>
+<div class="music-controls" style="position: fixed; bottom: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+  <select id="song-select" style="background: var(--bg-panel); border: 1px solid var(--line); padding: 8px 12px; font-family: var(--font-body); font-size: 13px; color: var(--text-primary); border-radius: 4px; box-shadow: 2px 2px 0px rgba(0,0,0,0.05); cursor: pointer; outline: none; width: 100%; max-width: 250px;">
+    <option value="dLhFDYQHDQY">Hangover (Taio Cruz)</option>
+    <option value="RLzCMyUaEts">Hangover (Kick - Salman Khan)</option>
+    <option value="PGNiXGX2nLU">Right Round (Flo Rida)</option>
+    <option value="PQmrmVs10X8">Chaiyya Chaiyya (Dil Se)</option>
+    <option value="Umqb9KENgWE">Tum Hi Ho (Aashiqui 2)</option>
+    <option value="k4yXQkG2s1E">Kala Chashma (Baar Baar Dekho)</option>
+    <option value="JGwWNGJdvx8">Shape of You (Ed Sheeran)</option>
+    <option value="4NRXx6U8ABQ">Blinding Lights (The Weeknd)</option>
+  </select>
+  <button id="music-btn" style="background: var(--bg-panel); border: 1.5px solid var(--line); padding: 10px 16px; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-primary); border-radius: 4px; box-shadow: 4px 4px 0px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s ease;">🎵 Play Music</button>
 </div>
-<iframe id="yt-player" width="0" height="0" src="https://www.youtube.com/embed/PGNiXGX2nLU?enablejsapi=1" frameborder="0" allow="autoplay"></iframe>
+<iframe id="yt-player" width="0" height="0" src="https://www.youtube.com/embed/dLhFDYQHDQY?enablejsapi=1" frameborder="0" allow="autoplay"></iframe>
 
 <div class="app-shell">
   <nav class="rail" aria-label="Stage navigation">
@@ -1551,23 +1561,37 @@ document.getElementById('cam-right').addEventListener('click', () => {
   manualRotationOffset += Math.PI / 4;
 });
 
-let isPlayingRightRound = false;
-let rightRoundSpinAccumulator = 0;
+let isPlayingMusic = false;
+let musicSpinAccumulator = 0;
 
-document.getElementById('music-btn').addEventListener('click', function() {
-    const iframe = document.getElementById('yt-player').contentWindow;
-    if (isPlayingRightRound) {
+const musicBtn = document.getElementById('music-btn');
+const songSelect = document.getElementById('song-select');
+const ytPlayer = document.getElementById('yt-player');
+
+musicBtn.addEventListener('click', function() {
+    const iframe = ytPlayer.contentWindow;
+    if (isPlayingMusic) {
         iframe.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        this.innerText = '🎵 Play "Right Round"';
+        this.innerText = '🎵 Play Music';
         this.style.background = 'var(--bg-panel)';
         this.style.color = 'var(--text-primary)';
-        isPlayingRightRound = false;
+        isPlayingMusic = false;
     } else {
         iframe.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
         this.innerText = '🎵 Stop Music';
         this.style.background = 'var(--accent)';
         this.style.color = '#FFFFFF';
-        isPlayingRightRound = true;
+        isPlayingMusic = true;
+    }
+});
+
+songSelect.addEventListener('change', function() {
+    const songId = this.value;
+    ytPlayer.src = `https://www.youtube.com/embed/${songId}?enablejsapi=1&autoplay=${isPlayingMusic ? 1 : 0}`;
+    if (isPlayingMusic) {
+        musicBtn.innerText = '🎵 Stop Music';
+        musicBtn.style.background = 'var(--accent)';
+        musicBtn.style.color = '#FFFFFF';
     }
 });
 
@@ -1622,11 +1646,11 @@ function animate3D() {
 
   // Helm Animations (Scroll Driven)
   const helmScrollFactor = scrollY * 0.005;
-  if (isPlayingRightRound) {
-      rightRoundSpinAccumulator += 0.1;
+  if (isPlayingMusic) {
+      musicSpinAccumulator += 0.1;
   }
   if (wheelGroup) {
-      wheelGroup.rotation.z = -helmScrollFactor - rightRoundSpinAccumulator;
+      wheelGroup.rotation.z = -helmScrollFactor - musicSpinAccumulator;
   }
   
   // Smooth hover popping (lift on local Z axis)
