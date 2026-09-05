@@ -3,40 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hybrid AI-Infrastructure Engineer — Roadmap Tracker</title>
+<title>Crawler — Roadmap Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 <style>
   :root{
-    --bg-canvas:#0F1417;
-    --bg-panel:#161C21;
-    --bg-panel-raised:#1D252B;
-    --bg-hover:#232C33;
-    --line:#2A343B;
-    --line-soft:#1F2830;
-    --text-primary:#F2F6F7;
-    --text-secondary:#A7B7BE;
-    --text-faint:#6C7A81;
-    --accent:#4FD1AE;
-    --go:#2FE07A;
-    --go-glow:rgba(47,224,122,.55);
+    --bg-canvas: #F8FAFC;
+    --bg-panel: #FFFFFF;
+    --bg-panel-raised: #FFFFFF;
+    --bg-hover: #EFF6FF;
+    --line: #E2E8F0;
+    --line-soft: rgba(50, 108, 229, 0.1);
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-faint: #64748B;
+    --accent: #326CE5;
+    --go: #326CE5;
+    --go-glow: rgba(50, 108, 229, 0.2);
     --font-display:'Space Grotesk', system-ui, sans-serif;
     --font-body:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     --font-mono:'IBM Plex Mono', ui-monospace, "SF Mono", "Cascadia Code", monospace;
 
-    --c-foundations:#7C9CF5;
-    --c-cloud:#D98E4C;
-    --c-containers:#4FD1AE;
-    --c-mlops:#C97CE0;
-    --c-ai:#5FC4E8;
-    --c-platform:#E0716B;
-    --c-flagship:#D4C24C;
-    --c-career:#9AA7AE;
+    --c-foundations:#326CE5;
+    --c-cloud:#326CE5;
+    --c-containers:#326CE5;
+    --c-mlops:#326CE5;
+    --c-ai:#326CE5;
+    --c-platform:#326CE5;
+    --c-flagship:#326CE5;
+    --c-career:#326CE5;
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     *{transition:none !important; animation:none !important;}
@@ -44,15 +45,29 @@
 
   body{
     margin:0;
-    background:
-      radial-gradient(1100px 620px at 14% -8%, rgba(79,209,174,.10), transparent 60%),
-      radial-gradient(900px 700px at 100% 0%, rgba(124,156,245,.08), transparent 55%),
-      var(--bg-canvas);
+    background-color: var(--bg-canvas);
+    background-image: 
+      radial-gradient(circle at center, rgba(50, 108, 229, 0.08) 1px, transparent 1px),
+      linear-gradient(rgba(50, 108, 229, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(50, 108, 229, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px, 120px 120px, 120px 120px;
+    background-position: 0 0, -1px -1px, -1px -1px;
     color:var(--text-primary);
     font-family:var(--font-body);
     font-size:16px;
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
+  }
+  
+  #webgl-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: transparent;
   }
 
   a{color:var(--accent);}
@@ -60,10 +75,13 @@
   :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
 
   /* ---------- shell ---------- */
-  .app-shell{ display:flex; align-items:flex-start; max-width:1320px; margin:0 auto; perspective:2200px; }
+  .app-shell{ display:flex; align-items:flex-start; max-width:1400px; margin:0 auto; perspective:2200px; pointer-events:none; }
   .rail{
     width:264px; flex-shrink:0; position:sticky; top:0; height:100vh;
-    overflow-y:auto; padding:26px 10px 24px 22px; border-right:1px solid var(--line-soft);
+    overflow-y:auto; padding:26px 10px 24px 22px; border-right:1px solid var(--line);
+    background: var(--bg-panel);
+    pointer-events:auto;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.02);
   }
   .rail-brand{ font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:18px; }
   .rail-list{list-style:none; margin:0; padding:0; position:relative;}
@@ -80,17 +98,15 @@
   .rail-title{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
   .rail-frac{font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);}
 
-  .main{flex:1; min-width:0; padding:30px 36px 120px;}
+  .main{flex:1; min-width:0; padding:30px 36px 120px; pointer-events:auto;}
 
   /* ---------- hero ---------- */
-  .hero{padding-bottom:20px; margin-bottom:6px; border-bottom:1px solid var(--line-soft);}
-  .hero-title{ font-family:var(--font-display); font-weight:700; font-size:36px; margin:0 0 8px; letter-spacing:-0.015em;
-    background:linear-gradient(100deg, var(--go) 0%, var(--c-ai) 55%, var(--c-foundations) 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero{padding-bottom:20px; margin-bottom:120px; border-bottom:1px solid var(--line); text-align:center;}
+  .hero-title{ font-family:var(--font-display); font-weight:700; font-size:42px; margin:0 0 8px; letter-spacing:-0.02em; color:var(--accent); }
   .hero-sub{color:var(--text-secondary); font-size:16.5px; margin:0 0 24px; max-width:66ch;}
 
   .stat-row{display:flex; align-items:flex-end; gap:32px; flex-wrap:wrap; margin-bottom:16px;}
-  .stat-big{font-family:var(--font-display); font-weight:700; font-size:58px; line-height:1; color:var(--go); text-shadow:0 0 26px var(--go-glow);}
+  .stat-big{font-family:var(--font-display); font-weight:700; font-size:58px; line-height:1; color:var(--accent); }
   .stat-big small{font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--text-secondary); margin-left:2px;}
   .stat-mini-group{display:flex; gap:24px; flex-wrap:wrap;}
   .stat-mini{font-family:var(--font-mono); font-size:14.5px; color:var(--text-secondary);}
@@ -105,7 +121,7 @@
   .legend-swatch{width:9px; height:9px; border-radius:2px; flex-shrink:0; box-shadow:0 0 6px currentColor;}
 
   /* ---------- controls ---------- */
-  .controls{ display:flex; flex-wrap:wrap; gap:18px 28px; align-items:flex-end; padding:18px 0 22px; margin-bottom:8px; border-bottom:1px solid var(--line-soft); }
+  .controls{ display:flex; flex-wrap:wrap; gap:18px 28px; align-items:flex-end; padding:18px 0 22px; margin-bottom:40px; border-bottom:1px solid var(--line); justify-content:center; }
   .control-block{display:flex; flex-direction:column; gap:8px;}
   .control-label{font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint); letter-spacing:0.04em;}
   .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
@@ -129,17 +145,19 @@
   .reset-btn:active{transform:translateY(0) scale(.96);}
 
   /* ---------- stage cards ---------- */
-  .stage-section{margin-top:24px; scroll-margin-top:16px;}
+  .stage-section{margin-top:12vh; margin-bottom:12vh; scroll-margin-top:16px; max-width:540px; transition: opacity 0.5s;}
+  .stage-section:nth-of-type(even) { margin-left: auto; }
   .stage-section.is-hidden{display:none;}
   .stage-card{
-    background:linear-gradient(155deg, var(--bg-panel-raised), var(--bg-panel) 60%);
-    border:1px solid var(--line-soft); border-radius:12px; border-left:4px solid var(--stage-color, var(--accent));
+    background: var(--bg-panel);
+    border:1.5px solid var(--line); border-radius:0px; border-left:6px solid var(--stage-color, var(--accent));
     overflow:hidden; transform-style:preserve-3d; will-change:transform;
-    box-shadow:0 1px 0 rgba(255,255,255,.02) inset, 0 10px 24px -18px rgba(0,0,0,.6);
-    transition:box-shadow .25s ease, border-color .25s ease;
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+    transition:box-shadow .25s ease, transform .25s ease;
   }
-  .stage-card:hover{ box-shadow:0 22px 44px -20px rgba(0,0,0,.65), 0 0 0 1px var(--stage-color, var(--line-soft)) inset; }
-  .stage-card.is-open{ box-shadow:0 22px 50px -20px rgba(0,0,0,.7), 0 0 0 1px var(--stage-color, var(--line-soft)) inset; }
+  .stage-card:hover{ box-shadow: 10px 10px 0px var(--accent); transform:translateY(-2px); border-color: var(--line); }
+  .stage-card.is-open{ box-shadow: 10px 10px 0px var(--accent); border-color: var(--line); }
+  
   .stage-head{ display:flex; align-items:center; gap:14px; padding:17px 19px; cursor:pointer; user-select:none; transform:translateZ(18px); }
   .stage-num{ font-family:var(--font-mono); font-size:12.5px; color:var(--text-faint); background:var(--bg-panel-raised); border:1px solid var(--line); border-radius:5px; padding:4px 7px; flex-shrink:0; }
   .stage-headtext{flex:1; min-width:0;}
@@ -222,26 +240,93 @@
   .footer-heading{font-family:var(--font-display); font-weight:700; font-size:21px; margin:0 0 6px; color:var(--text-primary);}
   .footer-sub{color:var(--text-secondary); font-size:14.5px; margin:0 0 16px; max-width:64ch;}
   .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
-  .market-card{background:linear-gradient(155deg, var(--bg-panel-raised), var(--bg-panel)); border:1px solid var(--line-soft); border-radius:11px; padding:17px;
-    transform-style:preserve-3d; transition:transform .2s ease, box-shadow .2s ease; box-shadow:0 10px 24px -18px rgba(0,0,0,.6);}
-  .market-card:hover{ transform:translateY(-4px); box-shadow:0 20px 36px -18px rgba(0,0,0,.65); }
+  .market-card{background:var(--bg-panel); border:1.5px solid var(--line); border-radius:0px; padding:17px;
+    transform-style:preserve-3d; transition:transform .2s ease, box-shadow .2s ease; box-shadow:4px 4px 0px rgba(0,0,0,.1);}
+  .market-card:hover{ transform:translateY(-4px); box-shadow:8px 8px 0px var(--accent); }
   .market-card h4{font-family:var(--font-mono); font-size:13px; letter-spacing:0.04em; color:var(--go); margin:0 0 11px;}
   .market-card p{font-size:14px; color:var(--text-secondary); margin:0 0 8px;}
   .market-card p:last-child{margin-bottom:0;}
 
   .glance-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:9px; margin-top:12px;}
-  .glance-cell{ background:linear-gradient(155deg, var(--bg-panel-raised), var(--bg-panel)); border:1px solid var(--line-soft); border-left:4px solid var(--gc-color,var(--accent)); border-radius:8px; padding:10px 12px;
-    transition:transform .15s ease, box-shadow .15s ease; }
-  .glance-cell:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 12px 20px -12px rgba(0,0,0,.5); }
+  .glance-cell{ background:var(--bg-panel); border:1.5px solid var(--line); border-left:6px solid var(--gc-color,var(--accent)); border-radius:0px; padding:10px 12px;
+    transition:transform .15s ease, box-shadow .15s ease; box-shadow:4px 4px 0px rgba(0,0,0,.1); }
+  .glance-cell:hover{ transform:translateY(-3px) scale(1.02); box-shadow:8px 8px 0px var(--accent); }
   .glance-cell .gname{font-size:13px; color:var(--text-secondary); display:block; margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .glance-cell .gpct{font-family:var(--font-mono); font-size:16px; font-weight:700;}
 
   footer.pagefoot{margin-top:48px; padding-top:18px; border-top:1px solid var(--line-soft); font-size:13px; color:var(--text-faint);}
 
+  /* ---------- confetti particles ---------- */
+  .confetti-particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confetti-pop 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  }
+  
+  @keyframes confetti-pop {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5);
+    }
+  }
+
+  /* ---------- camera controls ---------- */
+  .camera-controls {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: var(--bg-panel);
+    border: 1.5px solid var(--line);
+    padding: 16px;
+    border-radius: 4px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.05);
+  }
+  .camera-controls-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .camera-controls-row {
+    display: flex;
+    gap: 8px;
+  }
+  .camera-btn {
+    background: var(--bg-panel-raised);
+    border: 1px solid var(--line);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .camera-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
   /* ---------- responsive ---------- */
   @media (max-width:900px){
     .app-shell{flex-direction:column;}
-    .rail{ position:sticky; top:0; z-index:5; width:100%; height:auto; border-right:none; border-bottom:1px solid var(--line-soft); background:var(--bg-canvas); padding:10px 14px; overflow-x:auto; overflow-y:hidden; }
+    .rail{ position:sticky; top:0; z-index:5; width:100%; height:auto; border-right:none; border-bottom:1px solid var(--line); background: var(--bg-panel); padding:10px 14px; overflow-x:auto; overflow-y:hidden; }
     .rail-brand{display:none;}
     .rail-list{display:flex; gap:4px;}
     .rail-list::before{display:none;}
@@ -258,6 +343,24 @@
 </style>
 </head>
 <body>
+<canvas id="webgl-canvas"></canvas>
+
+<div class="camera-controls">
+  <div class="camera-controls-label">Helm Rotation</div>
+  <div class="camera-controls-row">
+    <button id="cam-left" class="camera-btn" aria-label="Rotate Left">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button id="cam-right" class="camera-btn" aria-label="Rotate Right">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="music-controls" style="position: fixed; bottom: 24px; right: 24px; z-index: 1000;">
+  <button id="music-btn" style="background: var(--bg-panel); border: 1.5px solid var(--line); padding: 12px 20px; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-primary); border-radius: 4px; box-shadow: 4px 4px 0px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s ease;">🎵 Play "Right Round"</button>
+</div>
+<iframe id="yt-player" width="0" height="0" src="https://www.youtube.com/embed/PGNiXGX2nLU?enablejsapi=1" frameborder="0" allow="autoplay"></iframe>
 
 <div class="app-shell">
   <nav class="rail" aria-label="Stage navigation">
@@ -971,9 +1074,14 @@
   }
 
   const allNodesFlat = {};
+  const nodeStageMap = {}; // Maps node id to stage number
+  
   (function indexNodes(){
     stages.forEach(s=>{
-      allNodesOfStage(s).forEach(n=>{ allNodesFlat[n.id] = n; });
+      allNodesOfStage(s).forEach(n=>{ 
+        allNodesFlat[n.id] = n; 
+        nodeStageMap[n.id] = s.num;
+      });
     });
     specialization.__items.forEach(n=>{ allNodesFlat[n.id] = n; });
   })();
@@ -990,18 +1098,74 @@
     syncIndeterminate();
   }
 
+  /* ---------- confetti particle effect ---------- */
+  function fireConfetti(x, y) {
+    const colors = ['#326CE5', '#FFFFFF', '#60A5FA', '#93C5FD', '#1D4ED8'];
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'confetti-particle';
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.backgroundColor = color;
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 50 + Math.random() * 100;
+      const tx = Math.cos(angle) * velocity;
+      const ty = Math.sin(angle) * velocity - 80;
+      const rot = Math.random() * 360 + 180;
+
+      particle.style.setProperty('--tx', `${tx}px`);
+      particle.style.setProperty('--ty', `${ty}px`);
+      particle.style.setProperty('--rot', `${rot}deg`);
+      
+      document.body.appendChild(particle);
+      
+      setTimeout(() => {
+        particle.remove();
+      }, 1000);
+    }
+  }
+
   /* ---------- events ---------- */
   document.addEventListener("change", (e)=>{
     const t = e.target;
     if(t.matches("input[type=checkbox][data-id]")){
       const id = t.dataset.id;
       const node = findNode(id);
+      
+      // Determine completion status before change
+      const stageNum = nodeStageMap[id];
+      let stageBefore = null;
+      let leavesBefore = [];
+      let doneBefore = 0;
+
+      if (stageNum !== undefined) {
+          const s = stages.find(st => st.num === stageNum);
+          if (s) {
+              stageBefore = s;
+              leavesBefore = leavesOfStage(s);
+              doneBefore = leavesBefore.filter(l=>checkedMap[l.id]).length;
+          }
+      }
+
       if(node.isParent){
         const val = t.checked;
         node.children.forEach(c=>{ checkedMap[c.id] = val; });
       } else {
         checkedMap[id] = t.checked;
       }
+      
+      // Check if stage just hit 100%
+      if (stageBefore) {
+          const doneAfter = leavesBefore.filter(l=>checkedMap[l.id]).length;
+          if (doneBefore < leavesBefore.length && doneAfter === leavesBefore.length) {
+              // Get bounding rect of the checkbox to spawn confetti at its location
+              const rect = t.getBoundingClientRect();
+              fireConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+          }
+      }
+
       scheduleSave();
       renderAll();
     }
@@ -1173,6 +1337,364 @@
 
   init();
 })();
+
+// Setup Lenis Smooth Scroll
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+  direction: 'vertical',
+  gestureDirection: 'vertical',
+  smooth: true,
+  mouseMultiplier: 1,
+  smoothTouch: false,
+  touchMultiplier: 2,
+  infinite: false,
+});
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+// Setup Three.js Architectural Drafting Scene
+const canvas = document.getElementById('webgl-canvas');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0xF8FAFC, 0.012);
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+// Pirate Ship Lighting: Bright Coastal Sun
+scene.add(new THREE.AmbientLight(0xE2E8F0, 1.4)); // Soft light ambient
+
+const dirLight = new THREE.DirectionalLight(0xFFFFFF, 1.8); // Bright sunlight
+dirLight.position.set(15, 30, 15);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.width = 2048;
+dirLight.shadow.mapSize.height = 2048;
+dirLight.shadow.camera.left = -30;
+dirLight.shadow.camera.right = 30;
+dirLight.shadow.camera.top = 30;
+dirLight.shadow.camera.bottom = -30;
+dirLight.shadow.bias = -0.001;
+scene.add(dirLight);
+
+// Helm Group - Holds the ship's wheel
+const helmGroup = new THREE.Group();
+const interactableParts = [];
+const interactableGroups = [];
+
+const matWood = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.9, metalness: 0.1 });
+const matDarkWood = new THREE.MeshStandardMaterial({ color: 0x326CE5, roughness: 0.9, metalness: 0.1 });
+const matBrass = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.4, metalness: 0.6 });
+const matFloor = new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 1.0 });
+
+// Invisible shadow catcher ground
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), matFloor);
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = -6;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Low-poly Water Surface
+const waterGeo = new THREE.PlaneGeometry(150, 150, 40, 40);
+const waterMat = new THREE.MeshStandardMaterial({
+  color: 0x60A5FA, // Light blue sea
+  flatShading: true,
+  roughness: 0.2,
+  metalness: 0.1,
+  transparent: true,
+  opacity: 0.9
+});
+const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+waterMesh.rotation.x = -Math.PI / 2;
+waterMesh.position.y = -4; // Below helm
+waterMesh.receiveShadow = true;
+scene.add(waterMesh);
+
+const waterPosAttr = waterGeo.attributes.position;
+const waterOriginalZ = new Float32Array(waterPosAttr.count);
+for(let i = 0; i < waterPosAttr.count; i++) {
+  waterOriginalZ[i] = waterPosAttr.getZ(i);
+}
+
+function addInteractableGroup(group, name, stageId, pos, rot) {
+  if (pos) group.position.set(...pos);
+  if (rot) group.rotation.set(...rot);
+  group.userData = { name, stageId, originalZ: group.position.z, isHelmPart: true };
+  interactableGroups.push(group);
+  
+  group.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      child.userData = { parentGroup: group };
+      interactableParts.push(child);
+    }
+  });
+}
+
+const standGroup = new THREE.Group();
+helmGroup.add(standGroup);
+
+const wheelWrapper = new THREE.Group();
+wheelWrapper.position.set(0, 3, 1.5);
+helmGroup.add(wheelWrapper);
+
+const wheelGroup = new THREE.Group();
+wheelWrapper.add(wheelGroup);
+
+// 1. Foundations: The Stand
+const baseGrp = new THREE.Group();
+const standBase = new THREE.Mesh(new THREE.BoxGeometry(6, 2, 8), matDarkWood);
+standBase.position.y = -4;
+const standPillar = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 2.5, 8, 8), matWood);
+baseGrp.add(standBase);
+baseGrp.add(standPillar);
+addInteractableGroup(baseGrp, "Foundations", 1, null);
+standGroup.add(baseGrp);
+
+// 2. Core Platform: Central Hub
+const hubGrp = new THREE.Group();
+const hub = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 2, 16), matBrass);
+hub.rotation.x = Math.PI / 2;
+const hubCap = new THREE.Mesh(new THREE.SphereGeometry(1.5, 16, 16, 0, Math.PI*2, 0, Math.PI/2), matDarkWood);
+hubCap.rotation.x = Math.PI / 2;
+hubCap.position.z = 1;
+hubGrp.add(hub);
+hubGrp.add(hubCap);
+addInteractableGroup(hubGrp, "Core Platform", 2, null);
+wheelGroup.add(hubGrp);
+
+// 3. Application Delivery: Inner Ring
+const innerRingGrp = new THREE.Group();
+const innerRing = new THREE.Mesh(new THREE.TorusGeometry(4, 0.4, 16, 7), matDarkWood); // 7-sided polygon
+innerRing.rotation.z = Math.PI / 14;
+innerRingGrp.add(innerRing);
+addInteractableGroup(innerRingGrp, "Application Delivery", 3, null);
+wheelGroup.add(innerRingGrp);
+
+// 4. ML, AI & Data: Outer Ring
+const outerRingGrp = new THREE.Group();
+const outerRing = new THREE.Mesh(new THREE.TorusGeometry(8, 0.6, 16, 7), matDarkWood); // 7-sided polygon
+outerRing.rotation.z = Math.PI / 14;
+outerRingGrp.add(outerRing);
+addInteractableGroup(outerRingGrp, "ML, AI & Data", 4, null);
+wheelGroup.add(outerRingGrp);
+
+// 5. Specialized & Edge: Spokes
+const spokesGrp = new THREE.Group();
+for (let i = 0; i < 7; i++) {
+    const spoke = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 8, 16), matWood);
+    spoke.position.y = 4;
+    const spokeWrapper = new THREE.Group();
+    spokeWrapper.add(spoke);
+    spokeWrapper.rotation.z = (i / 7) * Math.PI * 2;
+    spokesGrp.add(spokeWrapper);
+}
+addInteractableGroup(spokesGrp, "Specialized & Edge", 5, null);
+wheelGroup.add(spokesGrp);
+
+// 6. Leadership & Strategy: Handles
+const handlesGrp = new THREE.Group();
+for (let i = 0; i < 7; i++) {
+    const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.2, 2.5, 16), matWood);
+    const angle = (i / 7) * Math.PI * 2;
+    handle.position.set(Math.cos(angle) * 9.25, Math.sin(angle) * 9.25, 0);
+    handle.rotation.z = angle + Math.PI/2;
+    handlesGrp.add(handle);
+}
+addInteractableGroup(handlesGrp, "Leadership & Strategy", 6, null);
+wheelGroup.add(handlesGrp);
+
+helmGroup.position.set(4, -2, -22);
+helmGroup.rotation.y = -Math.PI / 8;
+scene.add(helmGroup);
+
+// Raycaster & Tooltip Setup
+const raycaster = new THREE.Raycaster();
+let hoveredGroup = null;
+
+const tooltip = document.createElement('div');
+tooltip.id = 'ship-tooltip';
+tooltip.style.cssText = 'position:fixed; pointer-events:none; opacity:0; z-index:9999; background:var(--bg-panel); border:1.5px solid var(--line); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); padding:10px 16px; color:var(--text-primary); font-family:var(--font-mono); font-size:13px; border-radius:0px; transition:opacity 0.2s, transform 0.1s; transform:translate(-50%, -150%);';
+document.body.appendChild(tooltip);
+
+document.addEventListener('click', () => {
+  if (hoveredGroup) {
+    const stageElement = document.querySelector(`[data-stage="${hoveredGroup.userData.stageId}"]`);
+    if (stageElement) {
+      stageElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+});
+
+camera.position.z = 10;
+
+let mouseX = 0;
+let mouseY = 0;
+let targetX = 0;
+let targetY = 0;
+let scrollY = 0;
+let manualRotationOffset = 0;
+let currentManualRotation = 0;
+
+document.getElementById('cam-left').addEventListener('click', () => {
+  manualRotationOffset -= Math.PI / 4;
+});
+
+document.getElementById('cam-right').addEventListener('click', () => {
+  manualRotationOffset += Math.PI / 4;
+});
+
+let isPlayingRightRound = false;
+let rightRoundSpinAccumulator = 0;
+
+document.getElementById('music-btn').addEventListener('click', function() {
+    const iframe = document.getElementById('yt-player').contentWindow;
+    if (isPlayingRightRound) {
+        iframe.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        this.innerText = '🎵 Play "Right Round"';
+        this.style.background = 'var(--bg-panel)';
+        this.style.color = 'var(--text-primary)';
+        isPlayingRightRound = false;
+    } else {
+        iframe.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        this.innerText = '🎵 Stop Music';
+        this.style.background = 'var(--accent)';
+        this.style.color = '#FFFFFF';
+        isPlayingRightRound = true;
+    }
+});
+
+document.addEventListener('mousemove', (event) => {
+  mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+  mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+  
+  if (tooltip) {
+    tooltip.style.left = event.clientX + 'px';
+    tooltip.style.top = event.clientY + 'px';
+  }
+});
+
+lenis.on('scroll', (e) => {
+  scrollY = e.scroll;
+});
+
+const clock = new THREE.Clock();
+
+function animate3D() {
+  requestAnimationFrame(animate3D);
+  const elapsedTime = clock.getElapsedTime();
+
+  const scrollRatio = scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1);
+  
+  // Dynamic helm rotation and elevation on scroll
+  currentManualRotation += (manualRotationOffset - currentManualRotation) * 0.1;
+  helmGroup.rotation.y = (-Math.PI / 8) + (scrollRatio * Math.PI * 0.25) + currentManualRotation;
+  helmGroup.rotation.x = scrollRatio * 0.1;
+  
+  // Base elevation from scroll + bobbing animation simulating floating on water
+  const floatOffset = Math.sin(elapsedTime * 1.5) * 0.4;
+  helmGroup.position.y = -2 + (scrollRatio * 6) + floatOffset;
+
+  // Water wave animation
+  const waterTime = elapsedTime * 1.2;
+  for (let i = 0; i < waterPosAttr.count; i++) {
+    const x = waterPosAttr.getX(i);
+    const y = waterPosAttr.getY(i);
+    const wave1 = Math.sin(x * 0.2 + waterTime) * 0.4;
+    const wave2 = Math.cos(y * 0.2 + waterTime) * 0.4;
+    const wave3 = Math.sin((x + y) * 0.1 - waterTime * 1.5) * 0.3;
+    waterPosAttr.setZ(i, waterOriginalZ[i] + wave1 + wave2 + wave3);
+  }
+  waterPosAttr.needsUpdate = true;
+  waterGeo.computeVertexNormals();
+
+  // Parallax camera
+  camera.position.x += (targetX - camera.position.x) * 0.05;
+  camera.position.y += (targetY - camera.position.y) * 0.05;
+  camera.lookAt(scene.position);
+
+  // Helm Animations (Scroll Driven)
+  const helmScrollFactor = scrollY * 0.005;
+  if (isPlayingRightRound) {
+      rightRoundSpinAccumulator += 0.1;
+  }
+  if (wheelGroup) {
+      wheelGroup.rotation.z = -helmScrollFactor - rightRoundSpinAccumulator;
+  }
+  
+  // Smooth hover popping (lift on local Z axis)
+  interactableGroups.forEach(grp => {
+      const isHovered = (grp === hoveredGroup);
+      const targetZ = isHovered ? grp.userData.originalZ + 1.5 : grp.userData.originalZ;
+      grp.position.z += (targetZ - grp.position.z) * 0.1;
+  });
+
+  // Raycasting interaction
+  raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
+  const intersects = raycaster.intersectObjects(interactableParts, false); // false since we check flat list
+  
+  if (intersects.length > 0) {
+    let object = intersects[0].object;
+    let group = object.userData.parentGroup;
+
+    if (hoveredGroup !== group) {
+      // Reset old hover
+      if (hoveredGroup) {
+        hoveredGroup.traverse(child => {
+          if (child.isMesh && child.userData.originalColor !== undefined) {
+            child.material.color.setHex(child.userData.originalColor);
+          }
+        });
+      }
+      
+      hoveredGroup = group;
+      
+      // Apply new hover
+      if (hoveredGroup) {
+        hoveredGroup.traverse(child => {
+          if (child.isMesh) {
+            if (child.userData.originalColor === undefined) {
+              child.userData.originalColor = child.material.color.getHex();
+            }
+            child.material.color.setHex(0x60A5FA); // Kubernetes Light Blue highlight
+          }
+        });
+      }
+      
+      tooltip.innerHTML = `<strong style="color:var(--accent)">STAGE ${hoveredGroup.userData.stageId}</strong><br/>${hoveredGroup.userData.name}`;
+      tooltip.style.opacity = '1';
+      document.body.style.cursor = 'pointer';
+    }
+  } else {
+    if (hoveredGroup) {
+      hoveredGroup.traverse(child => {
+        if (child.isMesh && child.userData.originalColor !== undefined) {
+          child.material.color.setHex(child.userData.originalColor);
+        }
+      });
+      hoveredGroup = null;
+      tooltip.style.opacity = '0';
+      document.body.style.cursor = 'default';
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+animate3D();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
 </script>
 </body>
 </html>

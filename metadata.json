@@ -1,0 +1,8 @@
+{
+  "name": "Crawler",
+  "description": "An interactive, 3D architectural drafting roadmap tracker with a rust-orange industrial aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
